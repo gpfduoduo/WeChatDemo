@@ -1,11 +1,16 @@
 # WeChatDemo
-Single Activity and Multiple Fragments to implement the social app WeChat using java
+Single Activity and Multiple Fragments to implement the social app WeChat using java. The knowledge from my [article](https://github.com/gpfduoduo/android-article).  
+Welcom to star and fork  
+
 
 # Introduction
 1. To study android and fragment  
 2. Fragment stack management  
 3. implement the friend circle using self define view  
 4. Lazy load fragment  
+5. study TextView knowledge: ClickableSpan, SpannableString etc...  
+6. Animator using method  
+7. soft input using   
 
 # Result  
 ![通讯录效果](screencapture/device-2016-07-11-151913.png)![发现效果](screencapture/device-2016-07-11-151656.png)![朋友圈效果](screencapture/device-2016-07-11-095451.png)
@@ -17,7 +22,8 @@ Single Activity and Multiple Fragments to implement the social app WeChat using 
 2. [YoKeyword/Fragmentation](https://github.com/YoKeyword/Fragmentation)  
 　　Welcom to [fork YoKeyword的Fragmentation](https://github.com/YoKeyword/Fragmentation)，very nice repositories 。
 3. [PhotoView](https://github.com/chrisbanes/PhotoView)  
-4. [ViewPagerFix](https://github.com/chrisbanes/PhotoView/issues/31)  
+4. [ViewPagerFix](https://github.com/chrisbanes/PhotoView/issues/31)    
+5. [Glide](https://github.com/bumptech/glide)  
 
 
 # License  
