@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/friend_circle_item_portrait"
+        android:layout_width="@dimen/x50"
+        android:layout_height="@dimen/y50"
+        android:src="@drawable/head"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x10"
+        android:layout_marginRight="@dimen/x10"
+        android:layout_toRightOf="@+id/friend_circle_item_portrait"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/friend_circle_item_nickname"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y25"
+            android:textSize="18dp"
+            android:textColor="@color/blue"
+            android:textStyle="bold"
+            android:text="@string/app_name"/>
+
+        <TextView
+            android:layout_marginTop="@dimen/y5"
+            android:id="@+id/friend_circle_item_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/y25"
+            android:text="@string/friend_circle_content"
+            android:textColor="@color/black"
+            android:textSize="15dp"/>
+
+        <com.gpfduoduo.wechat.ui.view.autogridview.AutoGridLayout
+            android:id="@+id/friend_circle_item_photos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/y3"></com.gpfduoduo.wechat.ui.view.autogridview.AutoGridLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/y8"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/friend_circle_item_time"
+                android:layout_alignParentLeft="true"
+                android:textSize="10dp"
+                android:text="@string/just"/>
+
+            <ImageView
+                android:id="@+id/friend_circle_item_love"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/im_snsimg"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/friend_circle_item_love_comment_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/x12"
+            android:paddingTop="@dimen/y10"
+            android:paddingRight="@dimen/x12"
+            android:paddingBottom="@dimen/y8"
+            android:layout_marginBottom="@dimen/y10"
+            android:background="@drawable/im_distribute_comm_bg"
+            android:orientation="vertical">
+
+            <com.gpfduoduo.wechat.ui.view.circleloveview.LoveTextView
+                android:id="@+id/friend_circle_item_loves"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:lineSpacingMultiplier="1.1"
+                android:textSize="14sp"
+                android:textColor="@color/text_secondary"></com.gpfduoduo.wechat.ui.view.circleloveview.LoveTextView>
+
+            <com.gpfduoduo.wechat.ui.view.circlelovecommentview.CommentListView
+                android:id="@+id/friend_circle_item_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cacheColorHint="#00000000"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="0dip"
+                android:fadingEdge="none"
+                android:fastScrollEnabled="false"
+                android:footerDividersEnabled="false"
+                android:headerDividersEnabled="false"
+                android:listSelector="@drawable/setting_item_selector"></com.gpfduoduo.wechat.ui.view.circlelovecommentview.CommentListView>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

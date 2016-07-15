@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ui_background"
+    android:orientation="vertical">
+
+    <ViewStub
+        android:id="@+id/contact_add_friend_toolbar_viewstub"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout="@layout/view_toolbar"></ViewStub>
+
+    <include
+        android:id="@+id/contact_layout_search"
+        layout="@layout/view_head_search"/>
+
+    <include
+        android:id="@+id/contact_add_friend_radar"
+        layout="@layout/view_wechat_list_item"></include>
+
+    <include
+        android:id="@+id/contact_add_friend_qunliao"
+        layout="@layout/view_wechat_list_item"></include>
+
+    <include
+        android:id="@+id/contact_add_friend_scan"
+        layout="@layout/view_wechat_list_item"></include>
+
+    <include
+        android:id="@+id/contact_add_friend_public"
+        layout="@layout/view_wechat_list_item"></include>
+
+</LinearLayout>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ui_background"
+    android:orientation="vertical">
+
+    <ViewStub
+        android:id="@+id/wechat_detail_toolbar_include"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout="@layout/view_toolbar"></ViewStub>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/wechat_list_detail_list"
+            android:clipChildren="false"
+            android:paddingLeft="-12dp"
+            android:paddingRight="-12dp"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/y8"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <FrameLayout
+            android:id="@+id/wechat_dialog_input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#eeeeee"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
+
+            <LinearLayout
+                android:id="@+id/wechat_msg_text_input"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y50"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/wechat_voice"
+                    android:layout_width="@dimen/x30"
+                    android:layout_height="@dimen/x30"
+                    android:layout_marginLeft="@dimen/x5"
+                    android:clickable="true"
+                    android:layout_marginRight="@dimen/x5"
+                    android:background="@drawable/btn_chat_voice_selector"></ImageView>
+
+                <EditText
+                    android:id="@+id/wechat_input_edit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_chat_msg_input"
+                    android:maxLines="3"
+                    android:focusableInTouchMode="true"
+                    android:minHeight="35dp"
+                    android:paddingBottom="3dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="3dp"
+                    android:singleLine="false"
+                    android:textSize="16dp"></EditText>
+
+                <ImageView
+                    android:id="@+id/wechat_face_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:clickable="true"
+                    android:src="@drawable/btn_chat_icon_face_selector"></ImageView>
+
+                <ImageView
+                    android:id="@+id/wechat_add_button"
+                    android:layout_width="wrap_content"
+                    android:clickable="true"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/btn_chat_icon_add_selector"></ImageView>
+            </LinearLayout>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/wechat_list_add_viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y250"
+                android:layout_marginTop="@dimen/y50"></android.support.v4.view.ViewPager>
+        </FrameLayout>
+    </LinearLayout>
+</FrameLayout>

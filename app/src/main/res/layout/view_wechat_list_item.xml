@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/y60"
+    android:id="@+id/wechat_list_item"
+    android:background="@drawable/bg_comm_item_selector">
+
+    <ImageView
+        android:layout_width="@dimen/x40"
+        android:layout_height="@dimen/x40"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/x15"
+        android:id="@+id/wechat_list_img"
+        android:background="@drawable/head"
+        android:scaleType="centerCrop"
+        android:visibility="visible"/>
+
+    <RelativeLayout
+        android:id="@+id/guide_friend_item_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y60"
+        android:layout_marginLeft="@dimen/x15"
+        android:layout_toRightOf="@+id/wechat_list_img"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/wechat_list_friend_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:text="@string/app_name"
+            android:paddingRight="15dp"
+            android:singleLine="true"
+            android:textColor="@color/text_primary"
+            android:textSize="15dp"/>
+
+        <TextView
+            android:id="@+id/wechat_list_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/wechat_list_friend_name"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/app_name"
+            android:textColor="@color/text_secondary"
+            android:textSize="13dp"/>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignLeft="@+id/guide_friend_item_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/item_divider"/>
+
+</RelativeLayout>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/ui_background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ViewStub
+        android:id="@+id/me_detail_viewstub"
+        android:layout="@layout/view_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <RelativeLayout
+        android:background="@drawable/bg_comm_item_selector"
+        android:layout_marginBottom="@dimen/y20"
+        android:layout_marginTop="@dimen/y8"
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y100">
+
+        <ImageView
+            android:layout_width="@dimen/x70"
+            android:layout_height="@dimen/x70"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/x15"
+            android:id="@+id/me_img"
+            android:background="@drawable/head"
+            android:scaleType="centerCrop"
+            android:visibility="visible"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y60"
+            android:layout_marginLeft="@dimen/x15"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/me_img"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/me_item_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:text="@string/wife"
+                android:paddingRight="15dp"
+                android:singleLine="true"
+                android:textColor="@color/text_primary"
+                android:textSize="15dp"/>
+
+            <TextView
+                android:id="@+id/me_item_subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/me_item_title"
+                android:layout_marginTop="10dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/wecaht_id"
+                android:textColor="@color/text_secondary"
+                android:textSize="13dp"/>
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/me_item_img_ope"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/x10"
+            android:background="@drawable/right"
+            android:layout_centerVertical="true"
+            android:scaleType="centerCrop"
+            android:visibility="visible"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/x10"
+            android:layout_toLeftOf="@+id/me_item_img_ope"
+            android:background="@drawable/qr_lite"
+            android:layout_centerVertical="true"
+            android:visibility="visible"/>
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/me_detail_item_album"
+        layout="@layout/view_discovery_me_item"></include>
+
+    <View
+        android:layout_marginLeft="@dimen/x10"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y1"
+        android:background="@color/item_divider"></View>
+
+    <include
+        android:id="@+id/me_detail_item_fav"
+        layout="@layout/view_discovery_me_item"></include>
+
+    <View
+        android:layout_marginLeft="@dimen/x10"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y1"
+        android:background="@color/item_divider"></View>
+
+    <include
+        android:id="@+id/me_detail_item_wallet"
+        layout="@layout/view_discovery_me_item"></include>
+
+    <View
+        android:layout_marginLeft="@dimen/x10"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y1"
+        android:background="@color/item_divider"></View>
+
+    <include
+        android:id="@+id/me_detail_item_card"
+        layout="@layout/view_discovery_me_item"></include>
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y8"
+        android:id="@+id/me_detail_item_faces"
+        layout="@layout/view_discovery_me_item"></include>
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y8"
+        android:id="@+id/me_detail_item_setting"
+        layout="@layout/view_discovery_me_item"></include>
+</LinearLayout>

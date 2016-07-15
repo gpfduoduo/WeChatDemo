@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\Administrator-Local1\.gradle\caches\modules-2\files-2.1\com.github.bumptech.glide\glide\3.7.0\9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4\glide-3.7.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4">
+        <dex dex="E:\program\github\WeChatDemo\app\build\intermediates\pre-dexed\debug\glide-3.7.0_7d24b4f38b16a36a0aaffdac3f249caec71e60a2.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator-Local1\.gradle\caches\modules-2\files-2.1\org.greenrobot\eventbus\3.0.0\ddd99896e9569eaababbe81b35d80e1b91c4ad85\eventbus-3.0.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="ddd99896e9569eaababbe81b35d80e1b91c4ad85">
+        <dex dex="E:\program\github\WeChatDemo\app\build\intermediates\pre-dexed\debug\eventbus-3.0.0_34fa014ed6ae208084993fce1be119a2b37d063f.jar" />
+    </item>
+    <item
+        jar="E:\program\github\WeChatDemo\app\build\intermediates\exploded-aar\com.android.support\design\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="5326d9a850d491714fef8cbfaa9ea3416f0bf0d2">
+        <dex dex="E:\program\github\WeChatDemo\app\build\intermediates\pre-dexed\debug\com.android.support-design-23.4.0_78574d4dec3391c1435ae8a232e5a26e8b731243.jar" />
+    </item>
+    <item
+        jar="E:\program\github\WeChatDemo\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="c2c594cace5d83a3227b2b6e658ecbfd586d3ed9">
+        <dex dex="E:\program\github\WeChatDemo\app\build\intermediates\pre-dexed\debug\com.android.support-support-vector-drawable-23.4.0_b2ce1b9eedbaff391f1e462ac03e9e1cc2ec55ba.jar" />
+    </item>
+    <item
+        jar="E:\program\github\WeChatDemo\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="de4db3785756bfb0915a9f59a9b3f2fea7407be4">
+        <dex dex="E:\program\github\WeChatDemo\app\build\intermediates\pre-dexed\debug\com.android.support-animated-vector-drawable-23.4.0_4e1b8192200682cfe9a144777086182f3405b839.jar" />
+    </item>
+    <item
+        jar="E:\program\github\WeChatDemo\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="920b17bbad0b89322bd3f220cb1453277e8206d6">
+        <dex dex="E:\program\github\WeChatDemo\app\build\intermediates\pre-dexed\debug\instant-run-bootstrap_38c29d3e7873884c3a5a179d43bcbfee7dce0fbe.jar" />
+    </item>
+    <item
+        jar="E:\program\github\WeChatDemo\app\build\intermediates\exploded-aar\com.github.chrisbanes.photoview\library\1.2.4\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="98b5309c8d368a7c83ca5f90e0c905044c195edd">
+        <dex dex="E:\program\github\WeChatDemo\app\build\intermediates\pre-dexed\debug\com.github.chrisbanes.photoview-library-1.2.4_ee366c63bf1dce593fc50aa7141afcf6bacf6f1e.jar" />
+    </item>
+    <item
+        jar="E:\program\github\WeChatDemo\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="67bd36ee9340ec7c254108936ad16b24bed160cc">
+        <dex dex="E:\program\github\WeChatDemo\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.4.0_deb24863e4539bb497edee22077ae7ec136073cf.jar" />
+    </item>
+    <item
+        jar="E:\program\github\WeChatDemo\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\libs\internal_impl-23.4.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="ea3c07504d2c8f4b13aa17c45c1b68ed9c1c3674">
+        <dex dex="E:\program\github\WeChatDemo\app\build\intermediates\pre-dexed\debug\internal_impl-23.4.0_870fac4e911fbf905822e048deecfb48f9b72b4b.jar" />
+    </item>
+    <item
+        jar="E:\program\github\WeChatDemo\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="548f06de403a9409f00554b3ee12a9fdea0e236c">
+        <dex dex="E:\program\github\WeChatDemo\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.4.0_fd7a32c1c7f917b3d20cc7d62cd4d138c2946d63.jar" />
+    </item>
+    <item
+        jar="E:\program\github\WeChatDemo\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="ec75036c3c52e451d0cde50a5aedaf5fd32354a0">
+        <dex dex="E:\program\github\WeChatDemo\app\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-23.4.0_5c25d6c91113953a64441cb509505bce6dd283c3.jar" />
+    </item>
+    <item
+        jar="D:\developtools\android_sdk_windows\android_sdk_windows\extras\android\m2repository\com\android\support\support-annotations\23.4.0\support-annotations-23.4.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="ffbe55fdb2bb456b1485831706a9eac3300bb6b8">
+        <dex dex="E:\program\github\WeChatDemo\app\build\intermediates\pre-dexed\debug\support-annotations-23.4.0_9ae35e3445b7ff831954b9f77263d7a7eb1fa315.jar" />
+    </item>
+    <item
+        jar="E:\program\github\WeChatDemo\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="2c8a85bc62d22b083f824840506311e6e6d50032">
+        <dex dex="E:\program\github\WeChatDemo\app\build\intermediates\pre-dexed\debug\instant-run_21eb32ed2d430d9c5d9663e92714908be0c438df.jar" />
+    </item>
+    <item
+        jar="E:\program\github\WeChatDemo\app\libs\pinyin4j-2.5.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="ae353005f973da1cd8545b54354504c2503f6865">
+        <dex dex="E:\program\github\WeChatDemo\app\build\intermediates\pre-dexed\debug\pinyin4j-2.5.0_fbbd48caf223a84d15176ca6fb02e176a97feb03.jar" />
+    </item>
+
+</items>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_weight="1"
+            android:id="@+id/wechat_add_item_photo"
+            android:clickable="true"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/y100">
+
+            <ImageView
+                android:id="@+id/wechat_add_item_img_photo"
+                android:layout_width="@dimen/x40"
+                android:layout_centerInParent="true"
+                android:layout_height="@dimen/y40"
+                android:background="@drawable/app_panel_pic_icon"/>
+
+            <TextView
+                android:layout_below="@+id/wechat_add_item_img_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/photos"
+                android:textSize="13dp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/text_secondary"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_weight="1"
+            android:id="@+id/wechat_add_item_chat_video"
+            android:clickable="true"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/y100">
+
+            <ImageView
+                android:id="@+id/wechat_add_item_img_video"
+                android:layout_width="@dimen/x40"
+                android:layout_centerInParent="true"
+                android:layout_height="@dimen/y40"
+                android:background="@drawable/app_panel_voice_icon"/>
+
+            <TextView
+                android:layout_below="@+id/wechat_add_item_img_video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/chatvideo"
+                android:textSize="13dp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/text_secondary"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_weight="1"
+            android:id="@+id/wechat_add_item_location"
+            android:clickable="true"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/y100">
+
+            <ImageView
+                android:id="@+id/wechat_add_item_img_location"
+                android:layout_width="@dimen/x40"
+                android:layout_centerInParent="true"
+                android:layout_height="@dimen/y40"
+                android:background="@drawable/app_panel_location_icon"/>
+
+            <TextView
+                android:layout_below="@+id/wechat_add_item_img_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/location"
+                android:textSize="13dp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/text_secondary"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_weight="1"
+            android:id="@+id/wechat_add_item_fav"
+            android:clickable="true"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/y100">
+
+            <ImageView
+                android:id="@+id/wechat_add_item_img_fav"
+                android:layout_width="@dimen/x40"
+                android:layout_centerInParent="true"
+                android:layout_height="@dimen/y40"
+                android:background="@drawable/app_panel_fav_icon"/>
+
+            <TextView
+                android:layout_below="@+id/wechat_add_item_img_fav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/me_collect"
+                android:textSize="13dp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/text_secondary"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_weight="1"
+            android:id="@+id/wechat_add_item_personalcard"
+            android:clickable="true"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/y100">
+
+            <ImageView
+                android:id="@+id/wechat_add_item_img_personalcard"
+                android:layout_width="@dimen/x40"
+                android:layout_centerInParent="true"
+                android:layout_height="@dimen/y40"
+                android:background="@drawable/app_panel_friendcard_icon"/>
+
+            <TextView
+                android:layout_below="@+id/wechat_add_item_img_personalcard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/personal_card"
+                android:textSize="13dp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/text_secondary"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_weight="1"
+            android:id="@+id/wechat_add_item_chat_audio"
+            android:clickable="true"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/y100">
+
+            <ImageView
+                android:id="@+id/wechat_add_item_img_chat_audio"
+                android:layout_width="@dimen/x40"
+                android:layout_centerInParent="true"
+                android:layout_height="@dimen/y40"
+                android:background="@drawable/app_panel_voiceaudio_icon"/>
+
+            <TextView
+                android:layout_below="@+id/wechat_add_item_img_chat_audio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/chat_audio"
+                android:textSize="13dp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/text_secondary"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_weight="1"
+            android:id="@+id/wechat_add_item_audio_input"
+            android:clickable="true"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/y100">
+
+            <ImageView
+                android:id="@+id/wechat_add_item_img_audio_input"
+                android:layout_width="@dimen/x40"
+                android:layout_centerInParent="true"
+                android:layout_height="@dimen/y40"
+                android:background="@drawable/app_panel_voiceinput_icon"/>
+
+            <TextView
+                android:layout_below="@+id/wechat_add_item_img_audio_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/audio_input"
+                android:textSize="13dp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/text_secondary"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_weight="1"
+            android:id="@+id/wechat_add_item_gift"
+            android:clickable="true"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/y100">
+
+            <ImageView
+                android:id="@+id/wechat_add_item_img_gift"
+                android:layout_width="@dimen/x70"
+                android:layout_centerInParent="true"
+                android:layout_height="@dimen/y70"
+                android:background="@drawable/gift_money"/>
+
+            <TextView
+                android:layout_below="@+id/wechat_add_item_img_gift"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/giftmoney"
+                android:textSize="13dp"
+                android:layout_marginTop="-12dp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/text_secondary"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/ui_background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ViewStub
+        android:id="@+id/discovery_detail_viewstub"
+        android:layout="@layout/view_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y8"
+        android:id="@+id/discover_detail_item_circle"
+        layout="@layout/view_discovery_me_item"></include>
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y15"
+        android:id="@+id/discover_detail_item_scan"
+        layout="@layout/view_discovery_me_item"></include>
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y15"
+        android:id="@+id/discover_detail_item_game"
+        layout="@layout/view_discovery_me_item"></include>
+
+    <View
+        android:layout_marginLeft="@dimen/x10"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y1"
+        android:background="@color/item_divider"></View>
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/discover_detail_item_shop"
+        layout="@layout/view_discovery_me_item"></include>
+</LinearLayout>
