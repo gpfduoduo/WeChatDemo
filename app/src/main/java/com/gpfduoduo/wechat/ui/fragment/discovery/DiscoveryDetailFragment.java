@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.gpfduoduo.wechat.R;
 import com.gpfduoduo.wechat.ui.fragment.BaseMainFragment;
+import com.gpfduoduo.wechat.ui.fragment.weichat.CameraFragment;
 
 /**
  * Created by gpfduoduo on 2016/7/1.
@@ -56,10 +57,15 @@ public class DiscoveryDetailFragment extends BaseMainFragment
 
     @Override public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.discover_detail_item_circle:
+            case R.id.discover_detail_item_circle: //start friend circle funtion
                 hideTabBar();
                 start(R.id.fragment_discovery_container,
                         DiscoveryCircleFragment.newInstance());
+                break;
+            case R.id.discover_detail_item_scan: //start QR scanning
+                hideTabBar();
+                start(R.id.fragment_discovery_container,
+                        CameraFragment.newInstance());
                 break;
         }
     }
