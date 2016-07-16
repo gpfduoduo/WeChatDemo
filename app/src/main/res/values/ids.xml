@@ -2,4 +2,22 @@
 <resources>
     <item type="id"
         name="glide_tag"/>
+    <item name="decode"
+        type="id"/>
+    <item name="auto_focus"
+        type="id"/>
+    <item name="decode_failed"
+        type="id"/>
+    <item name="decode_succeeded"
+        type="id"/>
+    <item name="encode_failed"
+        type="id"/>
+    <item name="encode_succeeded"
+        type="id"/>
+    <item name="launch_product_query"
+        type="id"/>
+    <item name="quit"
+        type="id"/>
+    <item name="restart_preview"
+        type="id"/>
 </resources>

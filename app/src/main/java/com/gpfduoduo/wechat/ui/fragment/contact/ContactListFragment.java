@@ -97,7 +97,8 @@ public class ContactListFragment extends BaseMainFragment
                             case R.id.action_contact_add:
                                 hideTabBar();
                                 start(R.id.fragment_contact_container,
-                                        AddFriendFragment.newInstance());
+                                        AddFriendFragment.newInstance("",
+                                                R.id.fragment_contact_container));
                                 break;
                         }
                         return true;

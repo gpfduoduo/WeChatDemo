@@ -85,18 +85,6 @@ public class PlusActionProvider extends ActionProvider {
                                return false;
                            }
                        });
-        subMenu.add(context.getString(R.string.action_fragment_stack))
-               .setOnMenuItemClickListener(
-                       new MenuItem.OnMenuItemClickListener() {
-                           @Override
-                           public boolean onMenuItemClick(MenuItem item) {
-                               if (mItemClickListener != null) {
-                                   mItemClickListener.OnItemClickListener(
-                                           item.getTitle().toString());
-                               }
-                               return false;
-                           }
-                       });
     }
 
 

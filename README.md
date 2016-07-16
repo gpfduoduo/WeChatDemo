@@ -6,10 +6,13 @@ Single Activity and Multiple Fragments to implement the social app WeChat using 
 1. To study android Activity and fragment. you could know how to use fragment in you app developing correctly.
 2. Fragment stack management. you could know the stack management method, in case of memory leaks. 
 3. implement the friend circle using self define view  
-4. Lazy load fragment  
+4. Lazy load fragment when UI show 
 5. study TextView knowledge: ClickableSpan, SpannableString etc...  
 6. Animator using method  
 7. soft input using   
+8. use zbar to scan QR, adopt lazy load camera, in case that, poor performance phone get stick
+
+
 
 
 # Picture  
@@ -24,6 +27,9 @@ Single Activity and Multiple Fragments to implement the social app WeChat using 
 3. [PhotoView](https://github.com/chrisbanes/PhotoView)  
 4. [ViewPagerFix](https://github.com/chrisbanes/PhotoView/issues/31)    
 5. [Glide](https://github.com/bumptech/glide)  
+6. [QrCodeScan](https://github.com/SkillCollege/QrCodeScan), notify this project has **memory leak**, i have put issue, but the author doesn't handler this. **In my project, I have solved this problem**.  
+
+
 
 
 # License  

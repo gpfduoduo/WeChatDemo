@@ -20,7 +20,9 @@ public class AddFriendFragment extends BaseBackFragment
         implements View.OnClickListener {
 
     private static final String LEFT_TITLE = "left_title";
+    private static final String CONTAINER_ID = "container_id";
     private String mLeftTitle;
+    private int mContainerId;
 
 
     public static AddFriendFragment newInstance() {
@@ -31,10 +33,11 @@ public class AddFriendFragment extends BaseBackFragment
     }
 
 
-    public static AddFriendFragment newInstance(String leftTitle) {
+    public static AddFriendFragment newInstance(String leftTitle, int containerId) {
         AddFriendFragment fragment = new AddFriendFragment();
         Bundle args = new Bundle();
         args.putString(LEFT_TITLE, leftTitle);
+        args.putInt(CONTAINER_ID, containerId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -46,6 +49,7 @@ public class AddFriendFragment extends BaseBackFragment
         Bundle bundle = getArguments();
         if (bundle != null) {
             mLeftTitle = bundle.getString(LEFT_TITLE);
+            mContainerId = bundle.getInt(CONTAINER_ID);
         }
     }
 
@@ -101,8 +105,7 @@ public class AddFriendFragment extends BaseBackFragment
     @Override public void onClick(View v) {
         switch (v.getId()) {
             case R.id.contact_add_friend_radar:
-                start(R.id.fragment_contact_container,
-                        RadarFragment.newInstance());
+                start(mContainerId, RadarFragment.newInstance());
                 break;
         }
     }

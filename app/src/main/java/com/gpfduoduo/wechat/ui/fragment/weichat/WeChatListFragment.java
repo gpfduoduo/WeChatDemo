@@ -14,6 +14,7 @@ import com.gpfduoduo.wechat.R;
 import com.gpfduoduo.wechat.entity.Friend;
 import com.gpfduoduo.wechat.ui.adapter.WeChatListAdapter;
 import com.gpfduoduo.wechat.ui.fragment.BaseMainFragment;
+import com.gpfduoduo.wechat.ui.fragment.contact.AddFriendFragment;
 import com.gpfduoduo.wechat.ui.view.PlusActionProvider;
 import java.util.ArrayList;
 import java.util.List;
@@ -90,11 +91,11 @@ public class WeChatListFragment extends BaseMainFragment {
                             start(R.id.fragment_wechat_container,
                                     CameraFragment.newInstance());
                         }
-                        else if (title.equals(
-                                getString(R.string.action_fragment_stack))) {
-                            logFragmentStack();
-                        }
                         else if (title.equals(getString(R.string.action_add))) {
+                            start(R.id.fragment_wechat_container,
+                                    AddFriendFragment.newInstance(
+                                            getString(R.string.chat),
+                                            R.id.fragment_wechat_container));
                         }
                     }
                 });
