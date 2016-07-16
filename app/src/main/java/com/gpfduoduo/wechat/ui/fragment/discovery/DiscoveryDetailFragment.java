@@ -65,7 +65,8 @@ public class DiscoveryDetailFragment extends BaseMainFragment
             case R.id.discover_detail_item_scan: //start QR scanning
                 hideTabBar();
                 start(R.id.fragment_discovery_container,
-                        CameraFragment.newInstance());
+                        CameraFragment.newInstance(
+                                getString(R.string.discover)));
                 break;
         }
     }

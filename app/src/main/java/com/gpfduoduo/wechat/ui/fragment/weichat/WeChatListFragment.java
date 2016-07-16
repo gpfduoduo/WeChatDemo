@@ -89,7 +89,8 @@ public class WeChatListFragment extends BaseMainFragment {
                                 getString(R.string.action_qrcode))) { //启动二维码扫描
                             hideTabBar();
                             start(R.id.fragment_wechat_container,
-                                    CameraFragment.newInstance());
+                                    CameraFragment.newInstance(
+                                            getString(R.string.chat)));
                         }
                         else if (title.equals(getString(R.string.action_add))) {
                             start(R.id.fragment_wechat_container,

@@ -38,6 +38,7 @@ import java.util.TimerTask;
 public class CameraFragment extends BaseBackFragment
         implements SurfaceHolder.Callback {
 
+    private static final String LEFT_TITLE = "left_title";
     private static final long VIBRATE_DURATION = 200L;
     private static final int QR_SCAN_TIMEOUT = 3 * 1000;
     private static final float BEEP_VOLUME = 0.50f;
@@ -52,6 +53,7 @@ public class CameraFragment extends BaseBackFragment
     private ViewStub mStub;
     private SurfaceHolder mSurfaceHolder;
     private View mView;
+    private String mLeftTitle;
 
     private int x = 0;
     private int y = 0;
@@ -119,9 +121,10 @@ public class CameraFragment extends BaseBackFragment
     }
 
 
-    public static CameraFragment newInstance() {
+    public static CameraFragment newInstance(String leftTitle) {
         CameraFragment fragment = new CameraFragment();
         Bundle args = new Bundle();
+        args.putString(LEFT_TITLE, leftTitle);
         fragment.setArguments(args);
         return fragment;
     }
@@ -129,6 +132,11 @@ public class CameraFragment extends BaseBackFragment
 
     @Override public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            mLeftTitle = bundle.getString(LEFT_TITLE);
+        }
+
         CameraManager.init(MyApplication.getContext());
         mCameraHandler = new CameraHandler(this);
     }
@@ -146,8 +154,7 @@ public class CameraFragment extends BaseBackFragment
 
     private void initToolbar(View view) {
         Toolbar toolbar = initToolBar(view, R.id.camera_title_viewstub, -1,
-                getString(R.string.action_qrcode),
-                getString(R.string.discover));
+                getString(R.string.action_qrcode), mLeftTitle);
         initToolbarNav(toolbar);
     }
 
