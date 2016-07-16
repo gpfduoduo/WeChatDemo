@@ -95,8 +95,8 @@ public class AddFriendFragment extends BaseBackFragment
 
         RelativeLayout scanInclude = (RelativeLayout) view.findViewById(
                 R.id.contact_add_friend_scan);
-        setItem(scanInclude, R.drawable.icon_qunliao, R.string.action_qrcode,
-                R.string.action_qrcode_detail);
+        setItem(scanInclude, R.drawable.icon_de_saoyisao,
+                R.string.action_qrcode, R.string.action_qrcode_detail);
 
         setClickListener(publicInclude, radarInclude, chatInclude, scanInclude);
     }

@@ -18,7 +18,7 @@ Single Activity and Multiple Fragments to implement the social app WeChat using 
 # Picture  
 ![通讯录效果](screencapture/device-2016-07-11-151913.png)![发现效果](screencapture/device-2016-07-11-151656.png)![朋友圈效果](screencapture/device-2016-07-11-095451.png)
 ![朋友圈本地图片浏览效果](screencapture/device-2016-07-11-095328.png)![弹窗口效果](screencapture/device-2016-07-11-095306.png)![好友发现效果](screencapture/device-2016-07-11-095225.png)
-![设置的效果](screencapture/device-2016-07-11-151714.png)
+![设置的效果](screencapture/device-2016-07-11-151714.png) ![扫一扫的界面](screencapture/device-2016-07-17-021602.png)
 
 # Thanks  
 1. [RadarScanViwe](https://github.com/gpfduoduo/RadarScanView)
