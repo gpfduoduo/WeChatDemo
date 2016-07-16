@@ -1,16 +1,16 @@
 # WeChatDemo
-Single Activity and Multiple Fragments to implement the social app WeChat using java. The knowledges about this apk are from [my article](https://github.com/gpfduoduo/android-article).  Welcom you guys to star and fork  
+**Single Activity and Multiple Fragments to implement the social app WeChat using java **. The knowledges about this apk are from [my article](https://github.com/gpfduoduo/android-article).  Welcom you guys to star and fork  
 
 
 # Introduction
-1. To study android Activity and fragment. you could know how to use fragment in you app developing correctly.
-2. Fragment stack management. you could know the stack management method, in case of memory leaks. 
-3. implement the friend circle using self define view  
-4. Lazy load fragment when UI show 
-5. study TextView knowledge: ClickableSpan, SpannableString etc...  
-6. Animator using method  
-7. soft input using   
-8. use zbar to scan QR, adopt lazy load camera, in case that, poor performance phone get stick
+1. **To study android Activity and fragment**. you could know how to use fragment in you app developing correctly.
+2. **Fragment stack management**. you could know the stack management method, in case of memory leaks. 
+3. implement the **friend circle using self define view**  
+4. **Lazy load fragment** when UI show 
+5. study TextView knowledge: **ClickableSpan, SpannableString etc...**  
+6. **Animator** using method  
+7. **soft input** using   
+8. use zbar to **scan QR, adopt lazy load camera**, in case that, poor performance phone get stick
 
 
 
