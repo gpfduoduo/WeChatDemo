@@ -1,18 +1,18 @@
 # WeChatDemo
-Single Activity and Multiple Fragments to implement the social app WeChat using java. The knowledge from my [article](https://github.com/gpfduoduo/android-article).  
-Welcom to star and fork  
+Single Activity and Multiple Fragments to implement the social app WeChat using java. The knowledges about this apk are from [my article](https://github.com/gpfduoduo/android-article).  Welcom you guys to star and fork  
 
 
 # Introduction
-1. To study android and fragment  
-2. Fragment stack management  
+1. To study android Activity and fragment. you could know how to use fragment in you app developing correctly.
+2. Fragment stack management. you could know the stack management method, in case of memory leaks. 
 3. implement the friend circle using self define view  
 4. Lazy load fragment  
 5. study TextView knowledge: ClickableSpan, SpannableString etc...  
 6. Animator using method  
 7. soft input using   
 
-# Result  
+
+# Picture  
 ![通讯录效果](screencapture/device-2016-07-11-151913.png)![发现效果](screencapture/device-2016-07-11-151656.png)![朋友圈效果](screencapture/device-2016-07-11-095451.png)
 ![朋友圈本地图片浏览效果](screencapture/device-2016-07-11-095328.png)![弹窗口效果](screencapture/device-2016-07-11-095306.png)![好友发现效果](screencapture/device-2016-07-11-095225.png)
 ![设置的效果](screencapture/device-2016-07-11-151714.png)
@@ -31,10 +31,8 @@ Copyright 2016 gpfduoduo
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-   http://www.apache.org/licenses/LICENSE-2.0
-
+You may obtain a copy of the License at  
+   http://www.apache.org/licenses/LICENSE-2.0  
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
