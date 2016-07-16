@@ -1,5 +1,5 @@
 # WeChatDemo
-**Single Activity and Multiple Fragments to implement the social app WeChat using java **. The knowledges about this apk are from [my article](https://github.com/gpfduoduo/android-article).  Welcom you guys to star and fork  
+**Single Activity and Multiple Fragments to implement the social app WeChat client**. The knowledges about this apk are from [my article](https://github.com/gpfduoduo/android-article).  Welcom you guys to star and fork  
 
 
 # Introduction
