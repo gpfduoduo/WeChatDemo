@@ -38,6 +38,7 @@ import java.util.TimerTask;
 public class CameraFragment extends BaseBackFragment
         implements SurfaceHolder.Callback {
 
+    private static final int INIT_CAMERA_DELAY = 500;
     private static final String LEFT_TITLE = "left_title";
     private static final long VIBRATE_DURATION = 200L;
     private static final int QR_SCAN_TIMEOUT = 3 * 1000;
@@ -147,7 +148,6 @@ public class CameraFragment extends BaseBackFragment
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_camera, container, false);
-        initToolbar(mView);
         return mView;
     }
 
@@ -182,8 +182,9 @@ public class CameraFragment extends BaseBackFragment
                     return;
                 }
                 initSurfaceView(mView);
+                initToolbar(mView);
             }
-        }, 500);
+        }, INIT_CAMERA_DELAY);
     }
 
 

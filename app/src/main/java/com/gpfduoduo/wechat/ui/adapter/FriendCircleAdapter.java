@@ -40,7 +40,7 @@ public class FriendCircleAdapter extends BaseAdapter {
     }
 
     public interface OnCommentItemClick {
-        public void onCommentItemClickListener(int type, int circlePos, int commentPos, User user);
+        public void onCommentItemClickListener(View view, int type, int circlePos, int commentPos, User user);
     }
 
     private OnCommentItemClick mOnCommentItemClick;
@@ -115,9 +115,10 @@ public class FriendCircleAdapter extends BaseAdapter {
 
         final FriendCircleLovePopupWindow lovePopupWindow
                 = holder.lovePopupWindow;
+        final ImageView view = holder.loveImg;
         //点赞和评论路对话框的显示
         lovePopupWindow.setOnItemClickListener(
-                new PopupItemClickListener(position, friendCircle));
+                new PopupItemClickListener(view, position, friendCircle));
 
         holder.loveImg.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
@@ -172,11 +173,11 @@ public class FriendCircleAdapter extends BaseAdapter {
                 holder.mCommentAdapter.setOnCommentClickListener(
                         new CommentAdapter.OnCommentClickListener() {
                             @Override
-                            public void onCommentClickListener(int commentPos) {
+                            public void onCommentClickListener(View view, int commentPos) {
                                 CommentItem item
                                         = friendCircle.mCommentList.get(
                                         commentPos);
-                                addComment(TYPE_REPLY_COMMENT, position,
+                                addComment(view, TYPE_REPLY_COMMENT, position,
                                         commentPos, item.user);
                             }
                         });
@@ -213,10 +214,10 @@ public class FriendCircleAdapter extends BaseAdapter {
      * @param commentPos 朋友圈中该评论项在评论终端位置
      * @param user 评论列表中的发表评论的用户（或者回复你的用户）
      */
-    private void addComment(int type, int circlePos, int commentPos, User user) {
+    private void addComment(View view, int type, int circlePos, int commentPos, User user) {
         if (mOnCommentItemClick != null) {
-            mOnCommentItemClick.onCommentItemClickListener(type, circlePos,
-                    commentPos, user);
+            mOnCommentItemClick.onCommentItemClickListener(view, type,
+                    circlePos, commentPos, user);
         }
     }
 
@@ -225,10 +226,12 @@ public class FriendCircleAdapter extends BaseAdapter {
             implements FriendCircleLovePopupWindow.OnItemClickListener {
 
         private int mCurCirclePos;
+        private View mCurView;
 
 
-        public PopupItemClickListener(int itemPosition, FriendCircle friendCircle) {
+        public PopupItemClickListener(View view, int itemPosition, FriendCircle friendCircle) {
             mCurCirclePos = itemPosition;
+            mCurView = view;
         }
 
 
@@ -248,7 +251,8 @@ public class FriendCircleAdapter extends BaseAdapter {
                     notifyDataSetChanged();
                     break;
                 case 1: //添加评论
-                    addComment(TYPE_PUBLIC_COMMENT, mCurCirclePos, 0, null);
+                    addComment(mCurView, TYPE_PUBLIC_COMMENT, mCurCirclePos, 0,
+                            null);
                     break;
             }
         }

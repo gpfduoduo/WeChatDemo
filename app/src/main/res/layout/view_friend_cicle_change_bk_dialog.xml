@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/common_background_color"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/friend_circle_item_change_bk"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y45"
+        android:background="@drawable/setting_item_selector"
+        android:textSize="17dp"
+        android:gravity="center"
+        android:text="@string/circle_change_bk"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y1"
+        android:background="@color/item_divider"></View>
+
+    <TextView
+        android:layout_marginTop="@dimen/y10"
+        android:id="@+id/friend_circle_item_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y45"
+        android:background="@drawable/setting_item_selector"
+        android:textSize="17dp"
+        android:gravity="center"
+        android:text="@string/circle_cancel"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y1"
+        android:background="@color/item_divider"></View>
+</LinearLayout>

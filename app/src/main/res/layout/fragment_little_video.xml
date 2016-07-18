@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ViewStub
+        android:id="@+id/little_video_viewstub"
+        android:layout="@layout/view_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <com.gpfduoduo.wechat.ui.view.progressview.ProgressView
+        android:id="@+id/record_progress"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_below="@+id/little_video_viewstub"></com.gpfduoduo.wechat.ui.view.progressview.ProgressView>
+
+    <SurfaceView
+        android:id="@+id/little_video_record_preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <RelativeLayout
+        android:id="@+id/little_video_bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/little_video_viewstub"
+        android:layout_toEndOf="@+id/little_video_viewstub">
+
+        <ImageView
+            android:id="@+id/record_controller"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/record_controller_seletor"/>
+    </RelativeLayout>
+</RelativeLayout>

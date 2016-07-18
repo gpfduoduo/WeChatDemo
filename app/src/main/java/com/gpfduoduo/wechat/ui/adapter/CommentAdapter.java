@@ -29,7 +29,7 @@ public class CommentAdapter extends BaseAdapter {
     private OnCommentClickListener mCommentClickListener;
 
     public interface OnCommentClickListener {
-        public void onCommentClickListener(int position);
+        public void onCommentClickListener(View view, int position);
     }
 
 
@@ -108,12 +108,14 @@ public class CommentAdapter extends BaseAdapter {
                 = viewHolder.circleMovementMethod;
         viewHolder.commentTv.setMovementMethod(circleMovementMethod);
 
+        final View view = viewHolder.commentTv;
         viewHolder.commentTv.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 //很重要，否则点击name也会弹出输入框
                 if (mCommentClickListener != null &&
                         circleMovementMethod.isPassToTv()) {
-                    mCommentClickListener.onCommentClickListener(position);
+                    mCommentClickListener.onCommentClickListener(view,
+                            position);
                 }
             }
         });

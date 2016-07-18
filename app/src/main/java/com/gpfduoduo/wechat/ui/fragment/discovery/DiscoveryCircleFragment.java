@@ -11,6 +11,8 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,19 +20,16 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.gpfduoduo.wechat.MyApplication;
 import com.gpfduoduo.wechat.R;
@@ -39,12 +38,15 @@ import com.gpfduoduo.wechat.entity.FriendCircle;
 import com.gpfduoduo.wechat.entity.User;
 import com.gpfduoduo.wechat.ui.adapter.FriendCircleAdapter;
 import com.gpfduoduo.wechat.ui.dialog.AddFriendCircleDialog;
+import com.gpfduoduo.wechat.ui.dialog.ChangeFriendCircleBkDialog;
 import com.gpfduoduo.wechat.ui.fragment.BaseBackFragment;
 import com.gpfduoduo.wechat.ui.fragment.event.FriendCircleSelectPhotoEvent;
 import com.gpfduoduo.wechat.ui.view.listview.BounceListView;
 import com.gpfduoduo.wechat.util.CapturePhotoHelper;
+import com.gpfduoduo.wechat.util.DeviceUtil;
 import com.gpfduoduo.wechat.util.FolderManager;
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import org.greenrobot.eventbus.EventBus;
@@ -67,6 +69,8 @@ public class DiscoveryCircleFragment extends BaseBackFragment
     private File mRestorePhotoFile;
 
     private AddFriendCircleDialog mPhotoDialog;
+    private ChangeFriendCircleBkDialog mChangeBkDialog;
+
     private ImageView mBackIcon;
     private ImageView mYouIcon;
     private ImageView mImgRefresh;
@@ -92,6 +96,10 @@ public class DiscoveryCircleFragment extends BaseBackFragment
     private int mScreenHeight;
 
     private CapturePhotoHelper mCapturePhotoHelper;
+    private SoftInputHandler mSoftInputHandler;
+    private View mCommentView;
+    private int mShowLastHeight;
+    private boolean mIsSoftPanelShow = false;
 
 
     public static DiscoveryCircleFragment newInstance() {
@@ -123,40 +131,17 @@ public class DiscoveryCircleFragment extends BaseBackFragment
         View view = inflater.inflate(R.layout.fragment_discovery_friend_circle,
                 container, false);
         EventBus.getDefault().register(this);
+
         mDownDistance = MyApplication.getContext()
                                      .getResources()
                                      .getDimension(R.dimen.y70);
+        mSoftInputHandler = new SoftInputHandler(this);
+        mScreenHeight = DeviceUtil.getScreenHeight(mBaseActivity);
         initTabView(view);
         initOther(view);
         initListView(view);
-        getSoftInputHeight(view);
 
         return view;
-    }
-
-
-    private void getSoftInputHeight(View view) {
-        final RelativeLayout myLayout = (RelativeLayout) view.findViewById(
-                R.id.friend_circle_root);
-        myLayout.getViewTreeObserver().
-                addOnGlobalLayoutListener(
-                        new ViewTreeObserver.OnGlobalLayoutListener() {
-                            @Override public void onGlobalLayout() {
-                                Rect r = new Rect();
-                                myLayout.getWindowVisibleDisplayFrame(r);
-                                mScreenHeight = myLayout.getRootView()
-                                                        .getHeight();
-                                int heightDifference = mScreenHeight -
-                                        (r.bottom - r.top);
-                                if (mSoftInputHeight == heightDifference) {
-                                    return;
-                                }
-                                else {
-                                    mSoftInputHeight = heightDifference;
-                                    adjustListView();
-                                }
-                            }
-                        });
     }
 
 
@@ -168,6 +153,7 @@ public class DiscoveryCircleFragment extends BaseBackFragment
 
     private void initOther(View view) {
         mPhotoDialog = new AddFriendCircleDialog(getActivity(), this);
+        mChangeBkDialog = new ChangeFriendCircleBkDialog(mBaseActivity, this);
         mImgRefresh = (ImageView) view.findViewById(
                 R.id.discovery_detail_circle_refresh);
 
@@ -175,25 +161,25 @@ public class DiscoveryCircleFragment extends BaseBackFragment
                 R.id.friend_circle_input_layout);
         mInputEdit = (EditText) view.findViewById(
                 R.id.friend_circle_input_edit);
+        mInputEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override public void onFocusChange(View v, boolean hasFocus) {
+                if (v instanceof EditText) {
+                    if (hasFocus) {
+                        mIsSoftPanelShow = true;
+                        adjustSoftInputLocation();
+                    }
+                    else {
+                        mIsSoftPanelShow = false;
+                    }
+                }
+            }
+        });
         mInputSend = (TextView) view.findViewById(
                 R.id.friend_circle_input_send);
         mInputSend.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                FriendCircle friendCircle = mFriendCircleList.get(mCurPos);
-                List<CommentItem> commentItems = friendCircle.mCommentList;
-                User addUser = new User();
-                addUser.name = "郭攀峰";
-                addUser.id = "0";
-                CommentItem item = new CommentItem();
-                item.content = mInputEdit.getText().toString();
-                item.id = "0";
-                item.user = addUser;
-                commentItems.add(item);
-                mAdapter.notifyDataSetChanged();
-
-                //隐藏输入框
-                mInputEdit.setText("");
-                hideInputLayout();
+                addNewComment();
+                hideInputLayout();//隐藏输入框
             }
         });
     }
@@ -234,11 +220,11 @@ public class DiscoveryCircleFragment extends BaseBackFragment
         mAdapter.setOnCommentItemClick(
                 new FriendCircleAdapter.OnCommentItemClick() {
                     @Override
-                    public void onCommentItemClickListener(int type, int circlePos, int commentPos, User user) {
+                    public void onCommentItemClickListener(View view, int type, int circlePos, int commentPos, User user) {
+                        mCommentView = view;
                         //显示输入框
                         mInputLayout.setVisibility(View.VISIBLE);
                         mCurPos = circlePos;
-                        measureLocationParam(type, circlePos);
                         showInput(mInputEdit);
                     }
                 });
@@ -270,58 +256,51 @@ public class DiscoveryCircleFragment extends BaseBackFragment
     }
 
 
-    private void adjustListView() {
-        final int listOffset = mScreenHeight - mListItemHeight -
-                mSoftInputHeight -
-                mInputLayout.getHeight();
-        if (mListView != null) {
-            final int headCount = mListView.getHeaderViewsCount();
-            Log.d(tag, "adjust list view soft input height  = " +
-                    mSoftInputHeight +
-                    "; input " +
-                    "layout height = " + mInputLayout.getHeight() +
-                    "; " +
-                    "currentSelection =  " + (mCurPos + headCount) +
-                    "; list offset = " + listOffset + "; screenHeight" +
-                    " = " + mScreenHeight);
-            mListView.post(new Runnable() {
-                @Override public void run() {
-                    mListView.setSelectionFromTop((mCurPos + headCount),
-                            listOffset);
-                    Log.d(tag, "first visible = " +
-                            mListView.getFirstVisiblePosition());
-                }
-            });
-        }
+    private void addNewComment() {
+        FriendCircle friendCircle = mFriendCircleList.get(mCurPos);
+        List<CommentItem> commentItems = friendCircle.mCommentList;
+        User addUser = new User();
+        addUser.name = "郭攀峰";
+        addUser.id = "0";
+        CommentItem item = new CommentItem();
+        item.content = mInputEdit.getText().toString();
+        item.id = "0";
+        item.user = addUser;
+        commentItems.add(item);
+        mAdapter.notifyDataSetChanged();
     }
 
 
-    private void measureLocationParam(int type, int circlePos) {
-        int firstPos = mListView.getFirstVisiblePosition();
-        if (firstPos < 0) {
-            firstPos = 0;
+    private void adjustSoftInputLocation() {
+        mIsSoftPanelShow = true;
+        if (mCommentView == null) {
+            return;
         }
-
-        Log.d(tag, "circlePos = " + circlePos + "; first " +
-                "pos = " + firstPos + "; list view size = " +
-                mListView.getChildCount() + "; head view height = " +
-                mHeaderView.getMeasuredHeight() + "; adapter count= " +
-                mListView.getAdapter().getCount());
-
-        int headCount = mListView.getHeaderViewsCount();
-        Log.d(tag, "head count = " + headCount);
-
-        View listItem = mListView.getChildAt(circlePos + headCount - firstPos);
-
-        if (type == FriendCircleAdapter.TYPE_PUBLIC_COMMENT) {
-            if (listItem != null) {
-                mListItemHeight = listItem.getMeasuredHeight();
-                Log.d(tag, "list item height = " + mListItemHeight);
+        mSoftInputHandler.postDelayed(new Runnable() {
+            @Override public void run() {
+                int newHeight = getDecorViewHeight();
+                if (mShowLastHeight == newHeight &&
+                        newHeight != mScreenHeight) {
+                    final int[] location = new int[2];
+                    mInputLayout.getLocationOnScreen(location);
+                    final int[] locationComment = new int[2];
+                    mCommentView.getLocationOnScreen(locationComment);
+                    int distance =
+                            locationComment[1] + mCommentView.getHeight() -
+                                    location[1];
+                    mListView.smoothScrollBy(distance, 100);
+                    mCommentView.getLocationOnScreen(locationComment);
+                    mShowLastHeight = 0;
+                    mSoftInputHandler.removeCallbacks(this);
+                }
+                else {
+                    mShowLastHeight = newHeight;
+                    if (mIsSoftPanelShow) {
+                        mSoftInputHandler.postDelayed(this, 10);
+                    }
+                }
             }
-        }
-        else if (type == FriendCircleAdapter.TYPE_REPLY_COMMENT) {
-
-        }
+        }, 20);
     }
 
 
@@ -332,6 +311,7 @@ public class DiscoveryCircleFragment extends BaseBackFragment
 
 
     private void hideInputLayout() {
+        mInputEdit.setText("");
         hideInput(mInputEdit);
         mInputLayout.setVisibility(View.GONE);
     }
@@ -376,9 +356,12 @@ public class DiscoveryCircleFragment extends BaseBackFragment
 
     @Override public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.friend_circle_item_cancel: //消息
+            case R.id.friend_circle_item_cancel: //取消
+                if (mChangeBkDialog != null) mChangeBkDialog.cancel();
                 break;
             case R.id.friend_circle_item_little_video://小视频
+                start(R.id.fragment_discovery_container,
+                        LittleVideoFragment.newInstance());
                 break;
             case R.id.friend_circle_item_select_from_photo: //选择本地图片
                 start(R.id.fragment_discovery_container,
@@ -388,8 +371,15 @@ public class DiscoveryCircleFragment extends BaseBackFragment
                 takePicture();
                 break;
             case R.id.friend_circle_you_head_icon: //右上角的小图标
+
                 break;
             case R.id.friend_circle_back_icon: //最上面的背景
+                mChangeBkDialog.showAtBottom();
+                break;
+            case R.id.friend_circle_item_change_bk:
+                if (mChangeBkDialog != null) {
+                    mChangeBkDialog.cancel();
+                }
                 break;
         }
         if (mPhotoDialog != null) {
@@ -537,6 +527,15 @@ public class DiscoveryCircleFragment extends BaseBackFragment
     }
 
 
+    private int getDecorViewHeight() {
+        Rect rect = new Rect();
+        mBaseActivity.getWindow()
+                     .getDecorView()
+                     .getWindowVisibleDisplayFrame(rect);
+        return rect.bottom;
+    }
+
+
     private void showImgRefresh(boolean show) {
         final ObjectAnimator alphaInAnimator, alphaOutAnimator, transInAnimator,
                 transOutAnimator, rotateAnim;
@@ -571,6 +570,21 @@ public class DiscoveryCircleFragment extends BaseBackFragment
             mOutAnimatorSet.setDuration(ANIM_DUR);
             mOutAnimatorSet.setInterpolator(mInterpolator);
             mOutAnimatorSet.start();
+        }
+    }
+
+
+    static class SoftInputHandler extends Handler {
+        WeakReference<DiscoveryCircleFragment> mWeakReference;
+
+
+        public SoftInputHandler(DiscoveryCircleFragment fragment) {
+            mWeakReference = new WeakReference<DiscoveryCircleFragment>(
+                    fragment);
+        }
+
+
+        @Override public void handleMessage(Message msg) {
         }
     }
 }

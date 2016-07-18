@@ -140,8 +140,8 @@ public class BounceListView extends ListView
                         if (!isDown && mDownListener != null) {
                             mDownListener.onDownStart();
                         }
-                        isDown = true;
                     }
+                    isDown = true;
                 }
                 break;
         }
