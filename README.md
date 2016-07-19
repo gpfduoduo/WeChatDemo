@@ -5,7 +5,7 @@
 # Introduction
 1. **To study android Activity and fragment**. you could know how to use fragment in you app developing correctly.
 2. **Fragment stack management**. you could know the stack management method, in case of memory leaks. 
-3. implement the **friend circle using self define view**  
+3. implement the **friend circle using self define view**
 4. **Lazy load fragment** when UI show 
 5. study TextView knowledge: **ClickableSpan, SpannableString etc...**  
 6. **Animator** using method  
@@ -14,6 +14,9 @@
 
 
 
+#Gif
+![gif效果](screencapture/out.gif)
+ 
 
 # Picture  
 ![通讯录效果](screencapture/device-2016-07-11-151913.png)![发现效果](screencapture/device-2016-07-11-151656.png)![朋友圈效果](screencapture/device-2016-07-19-190441.png) ![输入法切换](screencapture/device-2016-07-19-190320.png)
