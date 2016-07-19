@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <dimen name="little_video_focus_width">64dp</dimen>
     <dimen name="x1">1dp</dimen>
     <dimen name="x2">2dp</dimen>
     <dimen name="x3">3dp</dimen>

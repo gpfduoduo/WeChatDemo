@@ -132,14 +132,12 @@ public class BounceListView extends ListView
                     headView.setLayoutParams(
                             new LayoutParams(LayoutParams.MATCH_PARENT,
                                     downDistance));
-                    if (downDistance > DOWN_THRESHOLD) {
-                        if (mDownListener != null) {
-                            mDownListener.onDownListener(downDistance);
-                        }
-                        headView.invalidate();
-                        if (!isDown && mDownListener != null) {
-                            mDownListener.onDownStart();
-                        }
+                    if (mDownListener != null) {
+                        mDownListener.onDownListener(downDistance);
+                    }
+                    headView.invalidate();
+                    if (!isDown && mDownListener != null) {
+                        mDownListener.onDownStart();
                     }
                     isDown = true;
                 }

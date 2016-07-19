@@ -9,9 +9,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import com.gpfduoduo.fragmentutil.ui.BaseFragment;
 import com.gpfduoduo.wechat.R;
 import com.gpfduoduo.wechat.ui.MainActivity;
-import com.gpfduoduo.fragmentutil.ui.BaseFragment;
 
 /**
  * Created by Administrator on 2016/6/29.

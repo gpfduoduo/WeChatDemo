@@ -64,6 +64,7 @@
     <string name="personal_card">个人名片</string>
     <string name="chat_audio">语音聊天</string>
     <string name="audio_input">语音输入</string>
+    <string name="press_to_record">按住拍</string>
 
     <string name="camera_open_error">启动相机失败</string>
     <string name="photo_preview">PhotoPreview</string>
