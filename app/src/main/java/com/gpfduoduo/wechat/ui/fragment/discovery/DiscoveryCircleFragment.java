@@ -20,6 +20,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -31,6 +32,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.bumptech.glide.Glide;
 import com.gpfduoduo.wechat.MyApplication;
 import com.gpfduoduo.wechat.R;
 import com.gpfduoduo.wechat.entity.CommentItem;
@@ -76,9 +78,16 @@ public class DiscoveryCircleFragment extends BaseBackFragment
     private ImageView mImgRefresh;
     private BounceListView mListView;
     private FriendCircleAdapter mAdapter;
-    private List<FriendCircle> mFriendCircleList
-            = new ArrayList<FriendCircle>();
+
     private View mHeaderView;
+
+    private LinearLayout mInputLayout;
+    private EditText mInputEdit;
+    private TextView mInputSend;
+    private CapturePhotoHelper mCapturePhotoHelper;
+    private SoftInputHandler mSoftInputHandler;
+    private View mCommentView;
+    private ImageView mBk;
 
     private AnimatorSet mInAnimatorSet = new AnimatorSet();
     private AnimatorSet mOutAnimatorSet = new AnimatorSet();
@@ -86,18 +95,10 @@ public class DiscoveryCircleFragment extends BaseBackFragment
             = new AccelerateDecelerateInterpolator();
     private LinearInterpolator mLinearInterpolator = new LinearInterpolator();
 
-    private LinearLayout mInputLayout;
-    private EditText mInputEdit;
-    private TextView mInputSend;
+    private List<FriendCircle> mFriendCircleList
+            = new ArrayList<FriendCircle>();
     private int mCurPos;
-
-    private int mListItemHeight;
-    private int mSoftInputHeight;
     private int mScreenHeight;
-
-    private CapturePhotoHelper mCapturePhotoHelper;
-    private SoftInputHandler mSoftInputHandler;
-    private View mCommentView;
     private int mShowLastHeight;
     private boolean mIsSoftPanelShow = false;
 
@@ -191,6 +192,9 @@ public class DiscoveryCircleFragment extends BaseBackFragment
         mHeaderView = getActivity().getLayoutInflater()
                                    .inflate(R.layout.view_friend_circle_head,
                                            null);
+        mBk = (ImageView) mHeaderView.findViewById(
+                R.id.friend_circle_back_icon);
+
         mListView.addHeaderView(mHeaderView);
         mBackIcon = (ImageView) mHeaderView.findViewById(
                 R.id.friend_circle_back_icon);
@@ -365,7 +369,8 @@ public class DiscoveryCircleFragment extends BaseBackFragment
                 break;
             case R.id.friend_circle_item_select_from_photo: //选择本地图片
                 start(R.id.fragment_discovery_container,
-                        LocalPhotoAlbumFragment.newInstance());
+                        LocalPhotoAlbumFragment.newInstance(
+                                FriendCircleSelectPhotoEvent.PHOTO_TYPE.CIRCLE_SHARE));
                 break;
             case R.id.friend_circle_item_take_photo: //进入拍照页面
                 takePicture();
@@ -376,7 +381,10 @@ public class DiscoveryCircleFragment extends BaseBackFragment
             case R.id.friend_circle_back_icon: //最上面的背景
                 mChangeBkDialog.showAtBottom();
                 break;
-            case R.id.friend_circle_item_change_bk:
+            case R.id.friend_circle_item_change_bk: //修改朋友圈最上面的背景图片
+                start(R.id.fragment_discovery_container,
+                        LocalPhotoAlbumFragment.newInstance(
+                                FriendCircleSelectPhotoEvent.PHOTO_TYPE.CIRCLE_BACK));
                 if (mChangeBkDialog != null) {
                     mChangeBkDialog.cancel();
                 }
@@ -520,10 +528,38 @@ public class DiscoveryCircleFragment extends BaseBackFragment
 
     @Subscribe
     public void onEventMainThread(FriendCircleSelectPhotoEvent event) {
+        List<String> photos = event.getSelectedPhotos();
+        if (photos == null || photos.size() < 1) {
+            return;
+        }
+        //新增朋友圈图片
+        if (event.getType() ==
+                FriendCircleSelectPhotoEvent.PHOTO_TYPE.CIRCLE_SHARE) {
+            addShare(photos);
+        }
+        else if (event.getType() ==
+                FriendCircleSelectPhotoEvent.PHOTO_TYPE.CIRCLE_BACK) { //修改朋友圈背景
+            modifyBk(photos);
+        }
+    }
+
+
+    private void addShare(List<String> photos) {
         FriendCircle friendCircle = new FriendCircle();
-        friendCircle.mPhotoList = event.getSelectedPhotos();
+        friendCircle.mPhotoList = photos;
         mFriendCircleList.add(0, friendCircle);
         mAdapter.notifyDataSetChanged();
+    }
+
+
+    private void modifyBk(List<String> photos) {
+        String path = photos.get(0);
+        if (TextUtils.isEmpty(path)) {
+            return;
+        }
+        Log.d(tag, "change bk path = " + path);
+
+        Glide.with(this).load(path).into(mBk);
     }
 
 

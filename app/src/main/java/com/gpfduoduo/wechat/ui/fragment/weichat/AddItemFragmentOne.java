@@ -6,9 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import com.gpfduoduo.fragmentutil.ui.BaseFragment;
 import com.gpfduoduo.wechat.R;
 import com.gpfduoduo.wechat.ui.fragment.discovery.LocalPhotoAlbumFragment;
-import com.gpfduoduo.fragmentutil.ui.BaseFragment;
+import com.gpfduoduo.wechat.ui.fragment.event.FriendCircleSelectPhotoEvent;
 
 /**
  * Created by gpfduoduo on 2016/7/12.
@@ -66,7 +67,8 @@ public class AddItemFragmentOne extends BaseFragment
             case R.id.wechat_add_item_photo: //聊天页面进入相册
                 ((WeChatDetailFragment) getParentFragment()).start(
                         R.id.fragment_wechat_container,
-                        LocalPhotoAlbumFragment.newInstance());
+                        LocalPhotoAlbumFragment.newInstance(
+                                FriendCircleSelectPhotoEvent.PHOTO_TYPE.CHAT));
                 break;
             case R.id.wechat_add_item_chat_video:
                 break;

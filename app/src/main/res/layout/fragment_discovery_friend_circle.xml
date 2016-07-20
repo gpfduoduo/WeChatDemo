@@ -12,8 +12,6 @@
         android:cacheColorHint="@android:color/transparent"
         android:divider="@null"
         android:dividerHeight="0px"
-        android:scrollbars="none"
-        android:fadingEdge="none"
         android:fadingEdgeLength="0dp"
         android:focusable="true"
         android:transcriptMode="normal"

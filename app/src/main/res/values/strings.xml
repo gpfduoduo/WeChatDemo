@@ -32,6 +32,7 @@
     <string name="action_qrcode">扫一扫</string>
     <string name="action_setting">设置</string>
     <string name="action_fragment_stack">Fragment栈信息打印</string>
+    <string name="scan_title">二维码/条形码</string>
 
     <string name="circle_little_video">小视频</string>
     <string name="circle_take_photo">拍照</string>
@@ -53,6 +54,7 @@
     <string name="me_card">卡包</string>
     <string name="me_smile">表情</string>
     <string name="me_setting">设置</string>
+    <string name="scan_hint">将二维码/条形码放入框中，即可自动扫描</string>
 
     <string name="photos">照片</string>
     <string name="takephoto">拍摄</string>

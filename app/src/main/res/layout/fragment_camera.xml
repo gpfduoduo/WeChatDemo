@@ -17,4 +17,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <ProgressBar
+        android:id="@+id/camera_loading"
+        style="?android:attr/progressBarStyleSmallTitle"
+        android:layout_gravity="center"
+        android:layout_width="@dimen/x40"
+        android:layout_height="@dimen/y40"/>
+
 </FrameLayout>

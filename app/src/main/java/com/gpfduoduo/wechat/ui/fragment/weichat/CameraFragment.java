@@ -20,6 +20,7 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.gpfduoduo.wechat.MyApplication;
@@ -54,6 +55,8 @@ public class CameraFragment extends BaseBackFragment
     private ViewStub mStub;
     private SurfaceHolder mSurfaceHolder;
     private View mView;
+    private ProgressBar mLoading;
+
     private String mLeftTitle;
 
     private int x = 0;
@@ -148,13 +151,14 @@ public class CameraFragment extends BaseBackFragment
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_camera, container, false);
+        mLoading = (ProgressBar) mView.findViewById(R.id.camera_loading);
         return mView;
     }
 
 
     private void initToolbar(View view) {
         Toolbar toolbar = initToolBar(view, R.id.camera_title_viewstub, -1,
-                getString(R.string.action_qrcode), mLeftTitle);
+                getString(R.string.scan_title), mLeftTitle);
         initToolbarNav(toolbar);
     }
 
@@ -181,6 +185,7 @@ public class CameraFragment extends BaseBackFragment
                 if (mBaseActivity.isFinishing()) {
                     return;
                 }
+                mLoading.setVisibility(View.GONE);
                 initSurfaceView(mView);
                 initToolbar(mView);
             }

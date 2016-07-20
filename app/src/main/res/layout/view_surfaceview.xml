@@ -23,8 +23,7 @@
         android:layout_height="220dp"
         android:layout_below="@id/top_mask"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/capture"
-        android:contentDescription="@string/app_name">
+        android:background="@drawable/capture">
 
         <ImageView
             android:id="@+id/capture_scan_line"
@@ -43,6 +42,16 @@
         android:layout_below="@id/capture_crop_layout"
         android:alpha="0.85"
         android:background="@color/black"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/scan_hint"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/y10"
+        android:textColor="@color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/capture_crop_layout"></TextView>
 
     <View
         android:id="@+id/left_mask"
@@ -71,5 +80,4 @@
         android:alpha="0.85"
         android:background="@color/black"
         android:contentDescription="@string/app_name"/>
-
 </RelativeLayout>

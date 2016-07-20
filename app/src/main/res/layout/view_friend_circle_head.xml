@@ -6,7 +6,7 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/y250"
+        android:layout_height="@dimen/y300"
         android:layout_alignParentTop="true"
         android:background="@drawable/bg_cabin"
         android:scaleType="centerCrop"

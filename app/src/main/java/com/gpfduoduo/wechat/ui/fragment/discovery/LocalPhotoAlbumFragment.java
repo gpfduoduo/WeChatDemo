@@ -19,6 +19,8 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.gpfduoduo.imageloader.ImageFolder;
+import com.gpfduoduo.imageloader.ImageScanner;
 import com.gpfduoduo.wechat.MyApplication;
 import com.gpfduoduo.wechat.R;
 import com.gpfduoduo.wechat.ui.MainActivity;
@@ -27,8 +29,6 @@ import com.gpfduoduo.wechat.ui.adapter.LocalPhotoFolderAdapter;
 import com.gpfduoduo.wechat.ui.fragment.BaseVerticalAnimFragment;
 import com.gpfduoduo.wechat.ui.fragment.event.FriendCircleSelectPhotoEvent;
 import com.gpfduoduo.wechat.util.DeviceUtil;
-import com.gpfduoduo.imageloader.ImageFolder;
-import com.gpfduoduo.imageloader.ImageScanner;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,7 +43,9 @@ public class LocalPhotoAlbumFragment extends BaseVerticalAnimFragment implements
         View.OnClickListener,
         AdapterView.OnItemClickListener {
 
+    private static final String Fragment_FROM = "from";
     private static final int MAX_NUM = 9;
+    private int mFrom = FriendCircleSelectPhotoEvent.PHOTO_TYPE.CIRCLE_SHARE;
     private ImageScanner mImageScanner;
 
     private GridView mGridView;
@@ -62,11 +64,21 @@ public class LocalPhotoAlbumFragment extends BaseVerticalAnimFragment implements
     private TextView mDirName;
 
 
-    public static LocalPhotoAlbumFragment newInstance() {
+    public static LocalPhotoAlbumFragment newInstance(int type) {
         LocalPhotoAlbumFragment fragment = new LocalPhotoAlbumFragment();
         Bundle args = new Bundle();
+        args.putInt(Fragment_FROM, type);
         fragment.setArguments(args);
         return fragment;
+    }
+
+
+    @Override public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle args = getArguments();
+        if (args != null) {
+            mFrom = args.getInt(Fragment_FROM);
+        }
     }
 
 
@@ -95,6 +107,7 @@ public class LocalPhotoAlbumFragment extends BaseVerticalAnimFragment implements
                             case R.id.action_select_from_photo_complete: //完成
                                 FriendCircleSelectPhotoEvent event
                                         = new FriendCircleSelectPhotoEvent();
+                                event.setType(mFrom);
                                 event.setSelectedPhotos(
                                         mGridViewAdapter.getSelectedList());
                                 EventBus.getDefault().post(event);
