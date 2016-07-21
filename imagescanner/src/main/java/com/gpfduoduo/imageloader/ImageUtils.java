@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.media.MediaMetadataRetriever;
+import android.media.ThumbnailUtils;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
@@ -127,6 +129,26 @@ public class ImageUtils {
         imageSize.height = height;
 
         return imageSize;
+    }
+
+
+    public static Bitmap getVideoThumbNail(String filepath) {
+        MediaMetadataRetriever mmr = new MediaMetadataRetriever();
+        Bitmap bitmap = null;
+        try {
+            mmr.setDataSource(filepath);
+            bitmap = mmr.getFrameAtTime();
+            bitmap = ThumbnailUtils.extractThumbnail(bitmap, 320, 240,
+                    ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        }
+
+        mmr.release();
+
+        return bitmap;
     }
 
 

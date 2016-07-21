@@ -1,4 +1,4 @@
-package com.gpfduoduo.wechat.util;
+package com.gpfduoduo.wechat.util.camera;
 
 import android.os.Environment;
 import java.io.File;
@@ -15,6 +15,7 @@ public class FolderManager {
      * 存放图片目录名
      */
     private final static String PHOTO_FOLDER_NAME = "photo";
+    private final static String VIDEO_FOLDER_NAME = "video";
     /**
      * 存放闪退日志目录名
      */
@@ -54,6 +55,19 @@ public class FolderManager {
         if (appFolder != null) {
 
             File photoFolder = new File(appFolder, PHOTO_FOLDER_NAME);
+            return createOnNotFound(photoFolder);
+        }
+        else {
+            return null;
+        }
+    }
+
+
+    public static File getVideoFolder() {
+        File appFolder = getAppFolder();
+        if (appFolder != null) {
+
+            File photoFolder = new File(appFolder, VIDEO_FOLDER_NAME);
             return createOnNotFound(photoFolder);
         }
         else {

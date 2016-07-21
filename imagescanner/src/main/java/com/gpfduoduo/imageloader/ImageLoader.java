@@ -1,24 +1,17 @@
 package com.gpfduoduo.imageloader;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.MediaMetadataRetriever;
-import android.media.ThumbnailUtils;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
 import android.support.v4.util.LruCache;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
-import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -189,15 +182,20 @@ public class ImageLoader {
                     Process.setThreadPriority(
                             Process.THREAD_PRIORITY_BACKGROUND);
                     try {
-                        ImageSize imageSize = getImageViewWidth(imageView);
+                        ImageUtils.ImageSize imageSize
+                                = ImageUtils.getImageViewWidth(imageView);
 
                         int reqWidth = imageSize.width;
                         int reqHeight = imageSize.height;
 
-                        Bitmap bm = decodeSampledBitmapFromResource(path,
-                                reqWidth, reqHeight);
-
-                        //XLog.d(tag, "run task path =" + path);
+                        Bitmap bm = null;
+                        if (path.endsWith(".mp4")) {
+                            bm = ImageUtils.getVideoThumbNail(path);
+                        }
+                        else {
+                            bm = ImageUtils.decodeSampledBitmapFromResource(
+                                    path, reqWidth, reqHeight);
+                        }
                         addBitmapToLruCache(path, bm);
                         ImgBeanHolder holder = new ImgBeanHolder();
                         holder.bitmap = bm; //getBitmapFromLruCache(path);
@@ -205,57 +203,6 @@ public class ImageLoader {
                                 imageView);
                         holder.path = path;
                         holder.isBigImg = false;
-                        Message message = Message.obtain();
-                        message.obj = holder;
-                        mHandler.sendMessage(message);
-                        mPoolSemaphore.release();
-                    } catch (OutOfMemoryError e) {
-                        mPoolSemaphore.release();
-                    } catch (IOException e) {
-                        mPoolSemaphore.release();
-                    }
-                }
-            });
-        }
-    }
-
-
-    /**
-     * 带有ProgressBar用来加载大图的时候调用
-     */
-    public void loadImage(final String path, final ProgressBar progressBar, final ImageView imageView) {
-        // set tag
-        imageView.setTag(path);
-        progressBar.setTag(path);
-        // UI线程
-        if (mHandler == null) mHandler = new MyHandler();
-
-        Bitmap bm = getBitmapFromLruCache(path);
-        if (bm != null) {
-            progressBar.setVisibility(View.GONE);
-            imageView.setImageBitmap(bm);
-        }
-        else {
-            addTask(new Runnable() {
-                @Override public void run() {
-                    try {
-                        ImageSize imageSize = getImageViewWidth(imageView);
-
-                        int reqWidth = imageSize.width;
-                        int reqHeight = imageSize.height;
-
-                        Bitmap bm = decodeSampledBitmapFromResource(path,
-                                reqWidth, reqHeight);
-
-                        addBitmapToLruCache(path, bm);
-                        ImgBeanHolder holder = new ImgBeanHolder();
-                        holder.bitmap = bm;//getBitmapFromLruCache(path);
-                        holder.imageView = new WeakReference<ImageView>(
-                                imageView);
-                        holder.path = path;
-                        holder.progressBar = new WeakReference<ProgressBar>(
-                                progressBar);
-                        holder.isBigImg = true;
                         Message message = Message.obtain();
                         message.obj = holder;
                         mHandler.sendMessage(message);
@@ -326,135 +273,12 @@ public class ImageLoader {
     }
 
 
-    private Bitmap getVideoThumbNail(String filepath) {
-        MediaMetadataRetriever mmr = new MediaMetadataRetriever();
-        Bitmap bitmap = null;
-        //XLog.d(tag, "get video thumbnail = " + filepath);
-        try {
-            mmr.setDataSource(filepath);
-            bitmap = mmr.getFrameAtTime();
-            bitmap = ThumbnailUtils.extractThumbnail(bitmap, 80, 80,
-                    ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-        }
-
-        mmr.release();
-
-        return bitmap;
-    }
-
-
-    /**
-     * 计算inSampleSize，用于压缩图片
-     */
-    private int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        int width = options.outWidth;
-        int height = options.outHeight;
-
-        int inSampleSize = 1;
-        if (width > reqWidth || height > reqHeight) {
-            int widthRadio = Math.round(width * 1.0f / reqWidth);
-            int heightRadio = Math.round(height * 1.0f / reqHeight);
-            inSampleSize = Math.max(widthRadio, heightRadio);
-        }
-        return inSampleSize;
-    }
-
-
-    /**
-     * 根据ImageView获得适当的压缩的宽和高
-     */
-    private ImageSize getImageViewWidth(ImageView imageView) {
-        ImageSize imageSize = new ImageSize();
-        DisplayMetrics displayMetrics = imageView.getContext()
-                                                 .getResources()
-                                                 .getDisplayMetrics();
-
-        LayoutParams lp = imageView.getLayoutParams();
-
-        int width = imageView.getWidth();// 获取imageview的实际宽度
-        if (width <= 0) {
-            width = lp.width;// 获取imageview在layout中声明的宽度
-        }
-        if (width <= 0) {
-            //width = imageView.getMaxWidth();// 检查最大值
-            width = getImageViewFieldValue(imageView, "mMaxWidth");
-        }
-        if (width <= 0) {
-            width = displayMetrics.widthPixels;
-        }
-
-        int height = imageView.getHeight();// 获取imageview的实际高度
-        if (height <= 0) {
-            height = lp.height;// 获取imageview在layout中声明的宽度
-        }
-        if (height <= 0) {
-            height = getImageViewFieldValue(imageView, "mMaxHeight");// 检查最大值
-        }
-        if (height <= 0) {
-            height = displayMetrics.heightPixels;
-        }
-        imageSize.width = width;
-        imageSize.height = height;
-
-        return imageSize;
-    }
-
-
-    /**
-     * 反射获得ImageView设置的最大宽度和高度
-     */
-    private static int getImageViewFieldValue(Object object, String fieldName) {
-        int value = 0;
-        try {
-            Field field = ImageView.class.getDeclaredField(fieldName);
-            field.setAccessible(true);
-            int fieldValue = (Integer) field.get(object);
-            if (fieldValue > 0 && fieldValue < Integer.MAX_VALUE) {
-                value = fieldValue;
-            }
-        } catch (Exception e) {
-        }
-        return value;
-    }
-
-
-    /**
-     * 根据计算的inSampleSize，得到压缩后图片
-     */
-    private Bitmap decodeSampledBitmapFromResource(String pathName, int reqWidth, int reqHeight)
-            throws IOException {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        options.inPreferredConfig = Bitmap.Config.RGB_565;
-        BitmapFactory.decodeFile(pathName, options);
-
-        options.inSampleSize = calculateInSampleSize(options, reqWidth,
-                reqHeight);
-        options.inJustDecodeBounds = false;
-
-        //Bitmap bitmap = BitmapFactory.decodeFile(pathName, options);
-        Bitmap bitmap = BitmapFactory.decodeStream(
-                new FileInputStream(pathName), null, options);
-
-        return bitmap;
-    }
-
-
     private class ImgBeanHolder {
         Bitmap bitmap;
         WeakReference<ProgressBar> progressBar;
         WeakReference<ImageView> imageView;
         String path;
         boolean isBigImg = false;
-    }
-
-    private class ImageSize {
-        int width;
-        int height;
     }
 
     /**

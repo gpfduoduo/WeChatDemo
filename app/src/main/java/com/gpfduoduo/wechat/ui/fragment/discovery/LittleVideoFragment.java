@@ -21,26 +21,32 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import com.gpfduoduo.wechat.R;
-import com.gpfduoduo.wechat.ui.fragment.BaseVerticalAnimFragment;
+import com.gpfduoduo.wechat.entity.FriendCircle;
+import com.gpfduoduo.wechat.ui.fragment.BaseBackFragment;
+import com.gpfduoduo.wechat.ui.fragment.event.FriendCircleVideoEvent;
 import com.gpfduoduo.wechat.ui.view.textdrawable.TextDrawable;
 import com.gpfduoduo.wechat.util.DeviceUtil;
+import com.gpfduoduo.wechat.util.camera.FolderManager;
 import com.gpfduoduo.wechat.util.camera.MediaRecorderBase;
+import com.gpfduoduo.wechat.util.camera.MediaRecorderSystem;
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by gpfduoduo on 2016/7/17.
  */
-public class LittleVideoFragment extends BaseVerticalAnimFragment
+public class LittleVideoFragment extends BaseBackFragment
         implements MediaRecorderBase.OnErrorListener {
 
     private static final String tag = LittleVideoFragment.class.getSimpleName();
 
     private static final int HANDLE_HIDE_RECORD_FOCUS = 2;
     private static final int HANDLE_PROGRESS = 10;
-    private static final int MAX_TIME = 100;
+    private static final int MAX_TIME = 150;
 
     private SurfaceView mSurfaceView;
     private ImageView mFocusImage;
@@ -55,7 +61,7 @@ public class LittleVideoFragment extends BaseVerticalAnimFragment
     private int mPro;
     private int mProSecond;
 
-    private MediaRecorderBase mMediaRecorder;
+    private MediaRecorderSystem mMediaRecorder;
     private Animation mFocusAnimation;
     private Animation mScaleAnimation;
 
@@ -121,7 +127,8 @@ public class LittleVideoFragment extends BaseVerticalAnimFragment
 
 
     private void initMediaRecorder() {
-        mMediaRecorder = new MediaRecorderBase();
+        mMediaRecorder = new MediaRecorderSystem(
+                FolderManager.getVideoFolder());
         mMediaRecorder.setOnErrorListener(this);
         mMediaRecorder.setSurfaceHolder(mSurfaceView.getHolder());
         mMediaRecorder.prepare();
@@ -274,6 +281,7 @@ public class LittleVideoFragment extends BaseVerticalAnimFragment
 
     //开始录制
     private void startRecord() {
+        mMediaRecorder.startRecord();
         clearTimer();
         mTimer = new Timer();
         mTimerTask = new TimerTask() {
@@ -289,7 +297,16 @@ public class LittleVideoFragment extends BaseVerticalAnimFragment
 
     //结束录制
     private void stopRecord() {
+        mMediaRecorder.stopRecord();
         clearTimer();
+        File videoFile = mMediaRecorder.getVideoFile();
+        if (videoFile == null) return;
+
+        FriendCircleVideoEvent event = new FriendCircleVideoEvent();
+        event.setContentType(FriendCircle.CONTENT_TYPE.VIDEO);
+        event.setVideoPath(videoFile.getAbsolutePath());
+        EventBus.getDefault().post(event);
+        pop();
     }
 
 
@@ -398,6 +415,7 @@ public class LittleVideoFragment extends BaseVerticalAnimFragment
 
                     if (fragment.mPro == fragment.mProSecond) {
                         fragment.clearTimer();
+                        fragment.stopRecord();
                     }
                     break;
             }

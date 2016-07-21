@@ -1,13 +1,17 @@
 package com.gpfduoduo.wechat.ui.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
+import com.gpfduoduo.imageloader.ImageLoader;
 import com.gpfduoduo.wechat.MyApplication;
 import com.gpfduoduo.wechat.R;
 import com.gpfduoduo.wechat.entity.CommentItem;
@@ -19,6 +23,8 @@ import com.gpfduoduo.wechat.ui.view.autogridview.AutoGridLayout;
 import com.gpfduoduo.wechat.ui.view.circlelovecommentview.CommentListView;
 import com.gpfduoduo.wechat.ui.view.circleloveview.ISpanClick;
 import com.gpfduoduo.wechat.ui.view.circleloveview.LoveTextView;
+import com.gpfduoduo.wechat.util.MIMEType;
+import java.io.File;
 import java.util.List;
 
 /**
@@ -28,6 +34,7 @@ public class FriendCircleAdapter extends BaseAdapter {
 
     public static final int TYPE_PUBLIC_COMMENT = 0;
     public static final int TYPE_REPLY_COMMENT = 1;
+    private static final String tag = FriendCircleAdapter.class.getSimpleName();
 
     private Context mContext;
     private FriendCircleItemClickListener mOnItemClickListener;
@@ -77,12 +84,23 @@ public class FriendCircleAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+        final FriendCircle friendCircle = this.mFriendCircleList.get(position);
+        int contentType = friendCircle.contentType;
         ViewHolder holder = null;
         if (convertView == null) {
             convertView = mInflater.inflate(mResId, null);
             holder = new ViewHolder();
+
             holder.photos = (AutoGridLayout) convertView.findViewById(
                     R.id.friend_circle_item_photos);
+            holder.mVideoLayout = (RelativeLayout) convertView.findViewById(
+                    R.id.friend_circle_video_layout);
+            holder.mVideoThumb = (ImageView) convertView.findViewById(
+                    R.id.friend_circle_video_thumb);
+            holder.mVideoView = (TextureView) convertView.findViewById(
+                    R.id.friend_circle_video);
+            holder.mVideoIcon = (ImageView) convertView.findViewById(
+                    R.id.friend_circle_video_icon);
             holder.loveImg = (ImageView) convertView.findViewById(
                     R.id.friend_circle_item_love);
             holder.lovePopupWindow = new FriendCircleLovePopupWindow(mContext);
@@ -107,8 +125,6 @@ public class FriendCircleAdapter extends BaseAdapter {
 
         if (holder == null) return convertView;
 
-        final FriendCircle friendCircle = this.mFriendCircleList.get(position);
-
         if (holder.lovePopupWindow == null) {
             return convertView;
         }
@@ -127,20 +143,57 @@ public class FriendCircleAdapter extends BaseAdapter {
         });
 
         //朋友圈的图片显示
-        FriendCirclePhotoAdapter photoAdapter = new FriendCirclePhotoAdapter(
-                mContext, friendCircle.mPhotoList);
-        holder.photos.setAdapter(photoAdapter);
-
-        holder.photos.setOnItemClickListener(
-                new AutoGridLayout.OnItemClickListener() {
-                    @Override public void onItem(View view, int pos) {
-                        if (mOnItemClickListener != null) {
-                            mOnItemClickListener.onFriendCircleItemClickListener(
-                                    position, pos);
+        if (contentType == FriendCircle.CONTENT_TYPE.IMAGE) {
+            holder.photos.setVisibility(View.VISIBLE);
+            holder.mVideoLayout.setVisibility(View.GONE);
+            if (friendCircle.mPhotoList.size() > 0) {
+                holder.photos.setVisibility(View.VISIBLE);
+                FriendCirclePhotoAdapter photoAdapter
+                        = new FriendCirclePhotoAdapter(mContext,
+                        friendCircle.mPhotoList);
+                holder.photos.setAdapter(photoAdapter);
+            }
+            else {
+                holder.photos.setVisibility(View.GONE);
+            }
+            holder.photos.setOnItemClickListener(
+                    new AutoGridLayout.OnItemClickListener() {
+                        @Override public void onItem(View view, int pos) {
+                            if (mOnItemClickListener != null) {
+                                mOnItemClickListener.onFriendCircleItemClickListener(
+                                        position, pos);
+                            }
                         }
-                    }
-                });
+                    });
+        }
 
+        //朋友圈的视频显示
+        if (contentType == FriendCircle.CONTENT_TYPE.VIDEO) {
+            holder.photos.setVisibility(View.GONE);
+            holder.mVideoLayout.setVisibility(View.VISIBLE);
+            holder.mVideoLayout.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    //play the little video
+                    MIMEType.openFile(new File(friendCircle.videoPath),
+                            mContext);
+                }
+            });
+            if (!TextUtils.isEmpty(friendCircle.videoPath)) {
+                holder.mVideoThumb.setVisibility(View.VISIBLE);
+                holder.mVideoView.setVisibility(View.GONE);
+                holder.mVideoIcon.setVisibility(View.VISIBLE);
+                ImageLoader.getInstance()
+                           .loadImage(friendCircle.videoPath,
+                                   holder.mVideoThumb);
+            }
+            else {
+                holder.mVideoThumb.setVisibility(View.GONE);
+                holder.mVideoView.setVisibility(View.GONE);
+                holder.mVideoIcon.setVisibility(View.GONE);
+            }
+        }
+
+        //朋友圈的点赞和评论显示
         boolean isHaveLove = friendCircle.mLoveList.size() > 0 ? true : false;
         boolean isHaveComment = friendCircle.mCommentList.size() > 0
                                 ? true
@@ -203,6 +256,10 @@ public class FriendCircleAdapter extends BaseAdapter {
         FriendCircleLoveAdapter mFriendCircleLoveAdapter;
         CommentListView mCommentListView;
         CommentAdapter mCommentAdapter;
+        RelativeLayout mVideoLayout;
+        ImageView mVideoThumb;
+        TextureView mVideoView;
+        ImageView mVideoIcon;
     }
 
 

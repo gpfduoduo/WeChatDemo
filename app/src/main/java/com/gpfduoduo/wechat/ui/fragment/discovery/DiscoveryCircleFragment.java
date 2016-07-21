@@ -42,11 +42,13 @@ import com.gpfduoduo.wechat.ui.adapter.FriendCircleAdapter;
 import com.gpfduoduo.wechat.ui.dialog.AddFriendCircleDialog;
 import com.gpfduoduo.wechat.ui.dialog.ChangeFriendCircleBkDialog;
 import com.gpfduoduo.wechat.ui.fragment.BaseBackFragment;
+import com.gpfduoduo.wechat.ui.fragment.event.FriendCircleEvent;
 import com.gpfduoduo.wechat.ui.fragment.event.FriendCircleSelectPhotoEvent;
+import com.gpfduoduo.wechat.ui.fragment.event.FriendCircleVideoEvent;
 import com.gpfduoduo.wechat.ui.view.listview.BounceListView;
-import com.gpfduoduo.wechat.util.CapturePhotoHelper;
 import com.gpfduoduo.wechat.util.DeviceUtil;
-import com.gpfduoduo.wechat.util.FolderManager;
+import com.gpfduoduo.wechat.util.camera.CapturePhotoHelper;
+import com.gpfduoduo.wechat.util.camera.FolderManager;
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -463,6 +465,7 @@ public class DiscoveryCircleFragment extends BaseBackFragment
             List<String> photos = new ArrayList<>();
             photos.add(photoPath);
             friendCircle.mPhotoList = photos;
+            friendCircle.contentType = FriendCircle.CONTENT_TYPE.IMAGE;
             mFriendCircleList.add(0, friendCircle);
             mAdapter.notifyDataSetChanged();
         }
@@ -526,20 +529,38 @@ public class DiscoveryCircleFragment extends BaseBackFragment
     }
 
 
-    @Subscribe
-    public void onEventMainThread(FriendCircleSelectPhotoEvent event) {
-        List<String> photos = event.getSelectedPhotos();
-        if (photos == null || photos.size() < 1) {
-            return;
+    @Subscribe public void onEventMainThread(FriendCircleEvent event) {
+        if (event == null) return;
+
+        int type = event.getContentType();
+        //图片
+        if (type == FriendCircle.CONTENT_TYPE.IMAGE) {
+            FriendCircleSelectPhotoEvent photoEvent
+                    = (FriendCircleSelectPhotoEvent) event;
+            List<String> photos = photoEvent.getSelectedPhotos();
+            if (photos == null || photos.size() < 1) {
+                return;
+            }
+            //新增朋友圈图片
+            if (photoEvent.getType() ==
+                    FriendCircleSelectPhotoEvent.PHOTO_TYPE.CIRCLE_SHARE) {
+                addShare(photos);
+            }
+            //修改朋友圈背景
+            else if (photoEvent.getType() ==
+                    FriendCircleSelectPhotoEvent.PHOTO_TYPE.CIRCLE_BACK) {
+                modifyBk(photos);
+            }
         }
-        //新增朋友圈图片
-        if (event.getType() ==
-                FriendCircleSelectPhotoEvent.PHOTO_TYPE.CIRCLE_SHARE) {
-            addShare(photos);
-        }
-        else if (event.getType() ==
-                FriendCircleSelectPhotoEvent.PHOTO_TYPE.CIRCLE_BACK) { //修改朋友圈背景
-            modifyBk(photos);
+        //小视频
+        else if (type == FriendCircle.CONTENT_TYPE.VIDEO) {
+            FriendCircleVideoEvent videoEvent = (FriendCircleVideoEvent) event;
+            String path = videoEvent.getVideoPath();
+            FriendCircle friendCircle = new FriendCircle();
+            friendCircle.contentType = FriendCircle.CONTENT_TYPE.VIDEO;
+            friendCircle.videoPath = path;
+            mFriendCircleList.add(0, friendCircle);
+            mAdapter.notifyDataSetChanged();
         }
     }
 
@@ -547,6 +568,7 @@ public class DiscoveryCircleFragment extends BaseBackFragment
     private void addShare(List<String> photos) {
         FriendCircle friendCircle = new FriendCircle();
         friendCircle.mPhotoList = photos;
+        friendCircle.contentType = FriendCircle.CONTENT_TYPE.IMAGE;
         mFriendCircleList.add(0, friendCircle);
         mAdapter.notifyDataSetChanged();
     }

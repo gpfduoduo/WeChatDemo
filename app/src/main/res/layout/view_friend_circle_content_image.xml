@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.gpfduoduo.wechat.ui.view.autogridview.AutoGridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/friend_circle_item_photos"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/y3"></com.gpfduoduo.wechat.ui.view.autogridview.AutoGridLayout>

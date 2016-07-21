@@ -23,10 +23,11 @@ import com.gpfduoduo.imageloader.ImageFolder;
 import com.gpfduoduo.imageloader.ImageScanner;
 import com.gpfduoduo.wechat.MyApplication;
 import com.gpfduoduo.wechat.R;
+import com.gpfduoduo.wechat.entity.FriendCircle;
 import com.gpfduoduo.wechat.ui.MainActivity;
 import com.gpfduoduo.wechat.ui.adapter.LocalPhotoAdapter;
 import com.gpfduoduo.wechat.ui.adapter.LocalPhotoFolderAdapter;
-import com.gpfduoduo.wechat.ui.fragment.BaseVerticalAnimFragment;
+import com.gpfduoduo.wechat.ui.fragment.BaseBackFragment;
 import com.gpfduoduo.wechat.ui.fragment.event.FriendCircleSelectPhotoEvent;
 import com.gpfduoduo.wechat.util.DeviceUtil;
 import java.io.File;
@@ -36,9 +37,9 @@ import java.util.List;
 import org.greenrobot.eventbus.EventBus;
 
 /**
- * Created by Administrator on 2016/7/4.
+ * Created by gpfduoduo on 2016/7/4.
  */
-public class LocalPhotoAlbumFragment extends BaseVerticalAnimFragment implements
+public class LocalPhotoAlbumFragment extends BaseBackFragment implements
         ImageScanner.ScanCompleteCallBack,
         View.OnClickListener,
         AdapterView.OnItemClickListener {
@@ -108,6 +109,8 @@ public class LocalPhotoAlbumFragment extends BaseVerticalAnimFragment implements
                                 FriendCircleSelectPhotoEvent event
                                         = new FriendCircleSelectPhotoEvent();
                                 event.setType(mFrom);
+                                event.setContentType(
+                                        FriendCircle.CONTENT_TYPE.IMAGE);
                                 event.setSelectedPhotos(
                                         mGridViewAdapter.getSelectedList());
                                 EventBus.getDefault().post(event);

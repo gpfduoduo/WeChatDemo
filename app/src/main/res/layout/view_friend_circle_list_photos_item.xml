@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/friend_circle_item_photos_item_photo"
-        android:layout_width="@dimen/x101"
-        android:layout_height="@dimen/y135"
-        android:scaleType="centerCrop"
-        android:src="@drawable/pictures_no"></ImageView>
-</LinearLayout>
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/friend_circle_item_photos_item_photo"
+    android:layout_width="@dimen/x101"
+    android:layout_height="@dimen/y135"
+    android:scaleType="centerCrop"
+    android:src="@drawable/pictures_no"></ImageView>

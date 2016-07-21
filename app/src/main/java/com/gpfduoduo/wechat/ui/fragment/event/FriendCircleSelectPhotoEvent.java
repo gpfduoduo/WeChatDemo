@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by gpfduoduo on 2016/7/8.
  */
-public class FriendCircleSelectPhotoEvent {
+public class FriendCircleSelectPhotoEvent extends FriendCircleEvent{
 
     public static interface PHOTO_TYPE {
         public static final int CIRCLE_SHARE = 0;

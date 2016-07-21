@@ -1,4 +1,4 @@
-package com.gpfduoduo.wechat.util;
+package com.gpfduoduo.wechat.util.camera;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;

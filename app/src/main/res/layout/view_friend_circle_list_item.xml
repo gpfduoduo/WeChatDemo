@@ -36,11 +36,16 @@
             android:textColor="@color/black"
             android:textSize="15dp"/>
 
-        <com.gpfduoduo.wechat.ui.view.autogridview.AutoGridLayout
-            android:id="@+id/friend_circle_item_photos"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/y3"></com.gpfduoduo.wechat.ui.view.autogridview.AutoGridLayout>
+            android:layout_height="wrap_content">
+
+            <include
+                layout="@layout/view_friend_circle_content_image"></include>
+
+            <include
+                layout="@layout/view_friend_circle_content_video"></include>
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
