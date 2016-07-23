@@ -1,5 +1,6 @@
 package com.gpfduoduo.wechat.util.camera;
 
+import android.app.Activity;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import java.io.File;
@@ -15,14 +16,21 @@ public class MediaRecorderSystem extends MediaRecorderBase
 
     private final static String TIMESTAMP_FORMAT = "yyyy_MM_dd_HH_mm_ss";
     private static final String VIDEO_FORMAT = ".mp4";
+    private static final int AUDIO_ENCODING_BIT_RATE = 44100;
 
     private File mVideoFolder;
     private MediaRecorder mMediaRecorder;
     private File mVideoFile;
 
 
-    public MediaRecorderSystem(File videoFolder) {
+    public MediaRecorderSystem(Activity activity, File videoFolder, int width) {
+        super(activity, width);
         mVideoFolder = videoFolder;
+    }
+
+
+    @Override protected void onStartPreviewSuccess() {
+        super.onStartPreviewSuccess();
     }
 
 
@@ -43,15 +51,20 @@ public class MediaRecorderSystem extends MediaRecorderBase
             mMediaRecorder.setPreviewDisplay(mSurfaceHolder.getSurface());
             //设置录制视频和音频
             mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-            mMediaRecorder.setOrientationHint(90); //让手机竖屏播放
+            mMediaRecorder.setOrientationHint(CameraUtil.getInstance()
+                                                        .getCameraDisplayOrientation(
+                                                                mContext,
+                                                                mCameraId,
+                                                                camera));
+            //让手机竖屏播放
             mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
             //设置录制格式
             mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
 
             CamcorderProfile profile = CamcorderProfile.get(
                     CamcorderProfile.QUALITY_480P);
-            mMediaRecorder.setVideoSize(640, 480);
-            mMediaRecorder.setAudioEncodingBitRate(44100);
+            mMediaRecorder.setVideoSize(mPreviewWidth, mPreviewHeight);
+            mMediaRecorder.setAudioEncodingBitRate(AUDIO_ENCODING_BIT_RATE);
 
             if (profile.videoBitRate > 2 * 1024 * 1024) {
                 mMediaRecorder.setVideoEncodingBitRate(2 * 1024 * 1024);
@@ -129,6 +142,16 @@ public class MediaRecorderSystem extends MediaRecorderBase
         if (mOnErrorListener != null) {
             mOnErrorListener.onVideoError(what, extra);
         }
+    }
+
+
+    public int getPreviewWidth() {
+        return mPreviewWidth;
+    }
+
+
+    public int getPreviewHeight() {
+        return mPreviewHeight;
     }
 
 

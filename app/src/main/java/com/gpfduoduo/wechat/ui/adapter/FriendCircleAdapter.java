@@ -186,11 +186,6 @@ public class FriendCircleAdapter extends BaseAdapter {
                            .loadImage(friendCircle.videoPath,
                                    holder.mVideoThumb);
             }
-            else {
-                holder.mVideoThumb.setVisibility(View.GONE);
-                holder.mVideoView.setVisibility(View.GONE);
-                holder.mVideoIcon.setVisibility(View.GONE);
-            }
         }
 
         //朋友圈的点赞和评论显示

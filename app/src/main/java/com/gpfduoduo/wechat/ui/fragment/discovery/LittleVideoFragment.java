@@ -47,6 +47,8 @@ public class LittleVideoFragment extends BaseBackFragment
     private static final int HANDLE_HIDE_RECORD_FOCUS = 2;
     private static final int HANDLE_PROGRESS = 10;
     private static final int MAX_TIME = 150;
+    private static final int FOCUS_MAX_TIME_HIDE = 3 * 1000;
+    private static final int PRESS_VIEW_THRESHOLD = 120;
 
     private SurfaceView mSurfaceView;
     private ImageView mFocusImage;
@@ -57,9 +59,10 @@ public class LittleVideoFragment extends BaseBackFragment
     private boolean mIsCreated = false;
     private volatile boolean mIsReleased;
     private int mFocusWidth;
-    private int mScreenWidth;
     private int mPro;
     private int mProSecond;
+    private int mScreenWidth, mScreenHeight;
+    private int mSurfaceWidth, mSurfaceHeight;
 
     private MediaRecorderSystem mMediaRecorder;
     private Animation mFocusAnimation;
@@ -86,6 +89,7 @@ public class LittleVideoFragment extends BaseBackFragment
                                                  R.dimen.little_video_focus_width);
         ;
         mScreenWidth = DeviceUtil.getScreenWidth(getActivity());
+        mScreenHeight = DeviceUtil.getScreenHeight(mBaseActivity);
     }
 
 
@@ -127,8 +131,10 @@ public class LittleVideoFragment extends BaseBackFragment
 
 
     private void initMediaRecorder() {
-        mMediaRecorder = new MediaRecorderSystem(
-                FolderManager.getVideoFolder());
+        mMediaRecorder = new MediaRecorderSystem(mBaseActivity,
+                FolderManager.getVideoFolder(), mScreenWidth);
+        measureSurfaceView(mMediaRecorder.getPreviewWidth(),
+                mMediaRecorder.getPreviewHeight());
         mMediaRecorder.setOnErrorListener(this);
         mMediaRecorder.setSurfaceHolder(mSurfaceView.getHolder());
         mMediaRecorder.prepare();
@@ -156,10 +162,7 @@ public class LittleVideoFragment extends BaseBackFragment
         mBottomLayout.setOnTouchListener(mOnVideoControllerTouchListener);
         mSurfaceView.setOnTouchListener(mOnSurfaceViewTouchListener);
 
-        mRecordController.setImageDrawable(getPressToRecordDrawable());
-
         initProgress(view);
-        measureSurfaceView();
     }
 
 
@@ -192,28 +195,36 @@ public class LittleVideoFragment extends BaseBackFragment
 
 
     //设置Surface的宽度和高度
-    private void measureSurfaceView() {
+    private void measureSurfaceView(int previewWidth, int previewHeight) {
+        mSurfaceWidth = mScreenWidth;
         RelativeLayout.LayoutParams lp
                 = (RelativeLayout.LayoutParams) mSurfaceView.getLayoutParams();
-        lp.width = mScreenWidth;
-        lp.height = mScreenWidth;
-
+        mSurfaceHeight = mSurfaceWidth * previewWidth / previewHeight;
+        lp.width = mSurfaceWidth;
+        lp.height = mSurfaceHeight;
         mSurfaceView.setLayoutParams(lp);
-
         measureBottomLayout(false);
+        int pressViewWidth = mScreenHeight - mSurfaceHeight -
+                DeviceUtil.getStatusBarHeight(mBaseActivity);
+        if (pressViewWidth > 500) {
+            pressViewWidth = 500;
+        }
+        mRecordController.setImageDrawable(
+                getPressToRecordDrawable(pressViewWidth - PRESS_VIEW_THRESHOLD,
+                        pressViewWidth - PRESS_VIEW_THRESHOLD));
     }
 
 
     private void measureBottomLayout(boolean show) {
         if (show) {
             ((RelativeLayout.LayoutParams) mBottomLayout.getLayoutParams()).topMargin
-                    = (mScreenWidth +
-                    (int) getResources().getDimension(R.dimen.y3));
+                    = mSurfaceHeight +
+                    (int) getResources().getDimension(R.dimen.y3);
             if (mProgress != null) mProgress.setVisibility(View.VISIBLE);
         }
         else {
             ((RelativeLayout.LayoutParams) mBottomLayout.getLayoutParams()).topMargin
-                    = mScreenWidth;
+                    = mSurfaceHeight;
             if (mProgress != null) mProgress.setVisibility(View.GONE);
         }
     }
@@ -321,8 +332,10 @@ public class LittleVideoFragment extends BaseBackFragment
                 (int) (y - touchMinor / 2), (int) (x + touchMajor / 2),
                 (int) (y + touchMinor / 2));
 
-        if (touchRect.right > 1000) touchRect.right = 1000;
-        if (touchRect.bottom > 1000) touchRect.bottom = 1000;
+        if (touchRect.right > mSurfaceWidth) touchRect.right = mSurfaceWidth;
+        if (touchRect.bottom > mSurfaceHeight) {
+            touchRect.bottom = mSurfaceHeight;
+        }
         if (touchRect.left < 0) touchRect.left = 0;
         if (touchRect.right < 0) touchRect.right = 0;
 
@@ -350,11 +363,11 @@ public class LittleVideoFragment extends BaseBackFragment
         if (left < 0) {
             left = 0;
         }
-        else if (left + mFocusWidth > mScreenWidth) {
-            left = mScreenWidth - mFocusWidth;
+        else if (left + mFocusWidth > mSurfaceWidth) {
+            left = mSurfaceWidth - mFocusWidth;
         }
-        if (top + mFocusWidth > mScreenWidth) {
-            top = mScreenWidth - mFocusWidth;
+        if (top + mFocusWidth > mSurfaceWidth) {
+            top = mSurfaceWidth - mFocusWidth;
         }
         lp.leftMargin = left;
         lp.topMargin = top;
@@ -367,20 +380,21 @@ public class LittleVideoFragment extends BaseBackFragment
                     R.anim.record_focus);
         }
         mFocusImage.startAnimation(mFocusAnimation);
-        mHandler.sendEmptyMessageAtTime(HANDLE_HIDE_RECORD_FOCUS, 3000);
+        mHandler.sendEmptyMessageAtTime(HANDLE_HIDE_RECORD_FOCUS,
+                FOCUS_MAX_TIME_HIDE);
 
         return true;
     }
 
 
-    //类似于微信：背景黑色，圆环和字体绿色
-    private TextDrawable getPressToRecordDrawable() {
+    //类似于微信的按住拍：背景黑色，圆环和字体绿色
+    private TextDrawable getPressToRecordDrawable(int width, int height) {
         TextDrawable pressToRecord = TextDrawable.builder()
                                                  .beginConfig()
                                                  .fontSize(50)
                                                  .withBorder(10)
-                                                 .width(500)
-                                                 .height(500)
+                                                 .width(width)
+                                                 .height(height)
                                                  .textColor(Color.GREEN)
                                                  .borderColor(Color.GREEN)
                                                  .endConfig()

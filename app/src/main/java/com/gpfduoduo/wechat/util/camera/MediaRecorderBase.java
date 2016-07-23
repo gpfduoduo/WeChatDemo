@@ -2,6 +2,7 @@ package com.gpfduoduo.wechat.util.camera;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.graphics.ImageFormat;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
@@ -34,7 +35,7 @@ public class MediaRecorderBase implements Callback, PreviewCallback {
 
     public static final int AUDIO_RECORD_ERROR_UNKNOWN = 0;
     /** 采样率设置不支持 */
-    public static final int AUDIO_RECORD_ERROR_SAMPLERATE_NOT_SUPPORT = 1;
+    public static final int AUDIO_RECORD_ERROR_SAMPLE_RATE_NOT_SUPPORT = 1;
     /** 最小缓存获取失败 */
     public static final int AUDIO_RECORD_ERROR_GET_MIN_BUFFER_SIZE_NOT_SUPPORT
             = 2;
@@ -47,15 +48,6 @@ public class MediaRecorderBase implements Callback, PreviewCallback {
     public static final int VIDEO_BITRATE_MEDIUM = 1536;
     /** 视频码率 2M */
     public static final int VIDEO_BITRATE_HIGH = 2048;
-
-    /** 开始转码 */
-    protected static final int MESSAGE_ENCODE_START = 0;
-    /** 转码进度 */
-    protected static final int MESSAGE_ENCODE_PROGRESS = 1;
-    /** 转码完成 */
-    protected static final int MESSAGE_ENCODE_COMPLETE = 2;
-    /** 转码失败 */
-    protected static final int MESSAGE_ENCODE_ERROR = 3;
 
     /** 最大帧率 */
     public static final int MAX_FRAME_RATE = 25;
@@ -89,16 +81,32 @@ public class MediaRecorderBase implements Callback, PreviewCallback {
     /** PreviewFrame调用次数，测试用 */
     protected volatile long mPreviewFrameCallCount = 0;
 
+    private int mWidth;
+    protected int mPreviewWidth, mPreviewHeight;
+    protected Activity mContext;
 
-    public MediaRecorderBase() {
 
+    public MediaRecorderBase(Activity activity, int width) {
+        this.mWidth = width;
+        mContext = activity;
+
+        if (mCameraId == Camera.CameraInfo.CAMERA_FACING_BACK) {
+            camera = Camera.open();
+        }
+        else {
+            camera = Camera.open(mCameraId);
+        }
+        //设置摄像头参数
+        mParameters = camera.getParameters();
+        mSupportedPreviewSizes
+                = mParameters.getSupportedPreviewSizes();//	获取支持的尺寸
+        prepareCameraParameters();
     }
 
 
     /**
      * 设置预览输出SurfaceHolder
      */
-    @SuppressWarnings("deprecation")
     public void setSurfaceHolder(SurfaceHolder sh) {
         if (sh != null) {
             sh.addCallback(this);
@@ -323,7 +331,7 @@ public class MediaRecorderBase implements Callback, PreviewCallback {
      * 注意：自动对焦参数cam_mode和cam-mode可能有些设备不支持，导致视频画面变形，需要判断一下，已知有"GT-N7100",
      * "GT-I9308"会存在这个问题
      */
-    @SuppressWarnings("deprecation") protected void prepareCameraParaments() {
+    @SuppressWarnings("deprecation") protected void prepareCameraParameters() {
         if (mParameters == null) return;
 
         List<Integer> rates = mParameters.getSupportedPreviewFrameRates();
@@ -342,9 +350,15 @@ public class MediaRecorderBase implements Callback, PreviewCallback {
             }
         }
 
+        Size size = CameraUtil.getInstance()
+                              .getPropPreviewSize(mSupportedPreviewSizes,
+                                      mWidth);
+        mPreviewWidth = size.width;
+        mPreviewHeight = size.height;
+
         mParameters.setPreviewFrameRate(mFrameRate);
         // mParameters.setPreviewFpsRange(15 * 1000, 20 * 1000);
-        mParameters.setPreviewSize(640, 480);// 3:2
+        mParameters.setPreviewSize(mPreviewWidth, mPreviewHeight);
 
         // 设置输出视频流尺寸，采样率
         mParameters.setPreviewFormat(ImageFormat.NV21);
@@ -388,15 +402,8 @@ public class MediaRecorderBase implements Callback, PreviewCallback {
         }
 
         try {
-
-            if (mCameraId == Camera.CameraInfo.CAMERA_FACING_BACK) {
-                camera = Camera.open();
-            }
-            else {
-                camera = Camera.open(mCameraId);
-            }
-
-            camera.setDisplayOrientation(90);
+            CameraUtil.getInstance()
+                      .setCameraDisplayOrientation(mContext, mCameraId, camera);
             try {
                 camera.setPreviewDisplay(mSurfaceHolder);
             } catch (IOException e) {
@@ -406,12 +413,6 @@ public class MediaRecorderBase implements Callback, PreviewCallback {
                 }
                 Log.e(tag, "setPreviewDisplay fail " + e.getMessage());
             }
-
-            //设置摄像头参数
-            mParameters = camera.getParameters();
-            mSupportedPreviewSizes
-                    = mParameters.getSupportedPreviewSizes();//	获取支持的尺寸
-            prepareCameraParaments();
             camera.setParameters(mParameters);
             setPreviewCallback();
             camera.startPreview();

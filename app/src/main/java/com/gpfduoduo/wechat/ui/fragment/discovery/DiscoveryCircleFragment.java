@@ -562,6 +562,8 @@ public class DiscoveryCircleFragment extends BaseBackFragment
             mFriendCircleList.add(0, friendCircle);
             mAdapter.notifyDataSetChanged();
         }
+
+        mListView.setSelectionFromTop(0, 0);
     }
 
 

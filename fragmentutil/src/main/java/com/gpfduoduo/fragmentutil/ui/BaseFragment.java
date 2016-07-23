@@ -26,7 +26,7 @@ public class BaseFragment extends Fragment {
     protected FragmentAnim mFragmentAnim;
 
     protected Animation mNoAnim, mEnterAnim, mExitAnim, mPopEnterAnim,
-            mPopExitAnim;
+            mPopExitAnim, mAlphaEnterAnim;
 
     protected BaseActivity mBaseActivity;
     private FragmentUtil mFragmentUtil;
@@ -66,7 +66,7 @@ public class BaseFragment extends Fragment {
         if (transit == FragmentTransaction.TRANSIT_FRAGMENT_OPEN) {
             if (enter) { //A进入时的动画
                 if (mIsRoot) { // root fragment 没有进入动画
-                    return mNoAnim;
+                    return mAlphaEnterAnim;
                 }
                 return mEnterAnim;
             }
@@ -120,6 +120,8 @@ public class BaseFragment extends Fragment {
                 mFragmentAnim.getPopEnter());
         mPopExitAnim = AnimationUtils.loadAnimation(mBaseApplication,
                 mFragmentAnim.getPopExit());
+        mAlphaEnterAnim = AnimationUtils.loadAnimation(mBaseApplication,
+                R.anim.alpha_enter);
 
         mEnterAnim.setAnimationListener(new Animation.AnimationListener() {
             @Override public void onAnimationStart(Animation animation) {

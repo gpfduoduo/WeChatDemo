@@ -93,7 +93,7 @@ public class WeChatDetailFragment extends BaseBackFragment
 
     private void initInputView(View view) {
         mInputEdit = (EditText) view.findViewById(R.id.wechat_input_edit);
-        showInput(mInputEdit);
+        hideInput(mInputEdit);
         mInputEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override public void onFocusChange(View v, boolean hasFocus) {
                 if (v instanceof EditText) {
