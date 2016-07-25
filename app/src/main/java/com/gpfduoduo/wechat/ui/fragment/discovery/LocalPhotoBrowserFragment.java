@@ -10,15 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.gpfduoduo.wechat.R;
+import com.gpfduoduo.wechat.ui.fragment.BaseSwipeBackFragment;
 import com.gpfduoduo.wechat.ui.view.viewpager.ViewPagerFixed;
-import com.gpfduoduo.fragmentutil.ui.BaseFragment;
 import java.util.ArrayList;
 import uk.co.senab.photoview.PhotoView;
 
 /**
  * Created by gpfduoduo on 2016/7/6.
  */
-public class LocalPhotoBrowserFragment extends BaseFragment
+public class LocalPhotoBrowserFragment extends BaseSwipeBackFragment
         implements ViewPager.OnPageChangeListener {
 
     private static final String tag
@@ -62,7 +62,7 @@ public class LocalPhotoBrowserFragment extends BaseFragment
                 false);
 
         initView(view);
-        return view;
+        return attachToSwipeBack(view);
     }
 
 

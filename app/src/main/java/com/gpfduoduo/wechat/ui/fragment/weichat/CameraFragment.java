@@ -25,7 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.gpfduoduo.wechat.MyApplication;
 import com.gpfduoduo.wechat.R;
-import com.gpfduoduo.wechat.ui.fragment.BaseBackFragment;
+import com.gpfduoduo.wechat.ui.fragment.BaseSwipeBackFragment;
 import com.zbar.lib.camera.CameraManager;
 import com.zbar.lib.decode.CaptureActivityHandler;
 import java.io.IOException;
@@ -36,7 +36,7 @@ import java.util.TimerTask;
 /**
  * Created by gpfduoduo on 2016/6/28.
  */
-public class CameraFragment extends BaseBackFragment
+public class CameraFragment extends BaseSwipeBackFragment
         implements SurfaceHolder.Callback {
 
     private static final int INIT_CAMERA_DELAY = 500;
@@ -152,7 +152,8 @@ public class CameraFragment extends BaseBackFragment
                              @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_camera, container, false);
         mLoading = (ProgressBar) mView.findViewById(R.id.camera_loading);
-        return mView;
+
+        return attachToSwipeBack(mView);
     }
 
 

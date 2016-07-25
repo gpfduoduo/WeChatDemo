@@ -5,7 +5,7 @@
     android:id="@+id/friend_circle_root"
     android:orientation="vertical">
 
-    <com.gpfduoduo.wechat.ui.view.listview.BounceListView
+    <ListView
         android:id="@+id/friend_circle_listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

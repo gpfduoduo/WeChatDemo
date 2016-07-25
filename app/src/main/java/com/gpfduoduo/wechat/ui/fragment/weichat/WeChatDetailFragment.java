@@ -16,13 +16,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import com.gpfduoduo.wechat.R;
 import com.gpfduoduo.wechat.ui.adapter.AddFragmentPagerAdapter;
-import com.gpfduoduo.wechat.ui.fragment.BaseBackFragment;
+import com.gpfduoduo.wechat.ui.fragment.BaseSwipeBackFragment;
 import com.gpfduoduo.wechat.util.DeviceUtil;
 
 /**
  * Created by gpfduoduo on 2016/6/28.
  */
-public class WeChatDetailFragment extends BaseBackFragment
+public class WeChatDetailFragment extends BaseSwipeBackFragment
         implements View.OnClickListener {
 
     private static final String TITLE = "wechat_detail_title";
@@ -66,7 +66,8 @@ public class WeChatDetailFragment extends BaseBackFragment
         initToolbar(view);
         initListView(view);
         initInputView(view);
-        return view;
+
+        return attachToSwipeBack(view);
     }
 
 

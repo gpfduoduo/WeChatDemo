@@ -7,14 +7,14 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.gpfduoduo.fragmentutil.ui.BaseActivity;
+import com.gpfduoduo.fragmentutil.ui.BaseFragment;
 import com.gpfduoduo.wechat.R;
 import com.gpfduoduo.wechat.ui.fragment.contact.ContactFragment;
 import com.gpfduoduo.wechat.ui.fragment.discovery.DiscoveryFragment;
 import com.gpfduoduo.wechat.ui.fragment.me.MeFragment;
 import com.gpfduoduo.wechat.ui.fragment.weichat.WeChatFragment;
 import com.gpfduoduo.wechat.util.DeviceUtil;
-import com.gpfduoduo.fragmentutil.ui.BaseActivity;
-import com.gpfduoduo.fragmentutil.ui.BaseFragment;
 
 public class MainActivity extends BaseActivity {
 
@@ -131,8 +131,22 @@ public class MainActivity extends BaseActivity {
         }
         mTransAnimator = ObjectAnimator.ofFloat(mBottomTab, "translationX",
                 start, end);
-        mTransAnimator.setDuration(300);
+        mTransAnimator.setDuration(duration);
         mTransAnimator.setInterpolator(mLinearInterpolator);
         mTransAnimator.start();
     }
+
+
+    /**
+     * SwipeBack返回时的处理
+     */
+    public void SwipeOpenBottomTab(float percent) {
+        float value = (int) ((float) (-mWidth + (float) mWidth * percent));
+        if (value >= 0) {
+            value = 0;
+        }
+        mBottomTab.setX(value);
+        mBottomTab.setAlpha(percent);
+    }
 }
+

@@ -93,6 +93,7 @@ public class WeChatListFragment extends BaseMainFragment {
                                             getString(R.string.chat)));
                         }
                         else if (title.equals(getString(R.string.action_add))) {
+                            hideTabBar();
                             start(R.id.fragment_wechat_container,
                                     AddFriendFragment.newInstance(
                                             getString(R.string.chat),

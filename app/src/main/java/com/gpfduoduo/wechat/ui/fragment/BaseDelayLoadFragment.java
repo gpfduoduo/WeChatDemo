@@ -2,14 +2,12 @@ package com.gpfduoduo.wechat.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import com.gpfduoduo.fragmentutil.ui.BaseFragment;
 import com.gpfduoduo.wechat.R;
 import com.gpfduoduo.wechat.ui.MainActivity;
-import com.gpfduoduo.fragmentutil.anim.FragmentAnim;
-import com.gpfduoduo.fragmentutil.ui.BaseFragment;
 
 /**
  * Created by gpfduoduo on 2016/6/27.
@@ -66,10 +64,11 @@ public abstract class BaseDelayLoadFragment extends BaseFragment {
 
     public boolean onBackPressedSupport() {
         int childCount = getChildFragmentManager().getBackStackEntryCount();
-        Log.d(tag, "isBackPressReturn back stack entry count = " + childCount);
         if (childCount > 1) {
             popChild();
-            if (childCount == 2) hideTabBar(View.VISIBLE);
+            if (childCount == 2) {
+                hideTabBar(View.VISIBLE, true);
+            }
         }
         else {
             getActivity().moveTaskToBack(true);
@@ -79,9 +78,10 @@ public abstract class BaseDelayLoadFragment extends BaseFragment {
     }
 
 
-    public void hideTabBar(int visible) {
-        getActivity().findViewById(R.id.view_layout_bottom_back)
-                     .setVisibility(visible);
+    /**
+     * 显示隐藏Tab Bar
+     */
+    public void hideTabBar(int visible, boolean animation) {
         FrameLayout container = (FrameLayout) getActivity().findViewById(
                 R.id.fragment_container);
         ViewGroup.MarginLayoutParams params
@@ -89,13 +89,18 @@ public abstract class BaseDelayLoadFragment extends BaseFragment {
         if (visible == View.GONE) {
             params.bottomMargin = 0;
             ((MainActivity) getActivity()).openBottomTab(
-                    mEnterAnim.getDuration(), false);
+                    animation ? mEnterAnim.getDuration() : 0, false);
         }
         else {
             params.bottomMargin = (int) getResources().getDimension(
                     R.dimen.bottombar_height);
             ((MainActivity) getActivity()).openBottomTab(
-                    mEnterAnim.getDuration(), true);
+                    animation ? mEnterAnim.getDuration() : 0, true);
         }
+    }
+
+
+    public void SwipeOpenBottomTab(float percent) {
+        ((MainActivity) getActivity()).SwipeOpenBottomTab(percent);
     }
 }

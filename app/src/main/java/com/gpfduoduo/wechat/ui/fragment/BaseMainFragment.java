@@ -62,7 +62,8 @@ public class BaseMainFragment extends BaseFragment {
 
 
     protected void hideTabBar() {
-        ((BaseDelayLoadFragment) getParentFragment()).hideTabBar(View.GONE); //
+        ((BaseDelayLoadFragment) getParentFragment()).hideTabBar(View.GONE,
+                true); //
     }
 
 

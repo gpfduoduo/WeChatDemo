@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main_bottom"
     android:layout_width="match_parent"
-    android:layout_height="54dp"
+    android:layout_height="@dimen/bottombar_height"
     android:layout_gravity="bottom"
     android:background="#ffffff"
     android:gravity="center_vertical"

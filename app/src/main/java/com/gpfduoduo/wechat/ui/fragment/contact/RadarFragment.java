@@ -7,13 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.gpfduoduo.wechat.R;
-import com.gpfduoduo.wechat.ui.fragment.BaseBackFragment;
+import com.gpfduoduo.wechat.ui.fragment.BaseSwipeBackFragment;
 import com.guo.duoduo.randomtextview.RandomTextView;
 
 /**
  * Created by Administrator on 2016/6/30.
  */
-public class RadarFragment extends BaseBackFragment {
+public class RadarFragment extends BaseSwipeBackFragment {
 
     public static RadarFragment newInstance() {
         RadarFragment fragment = new RadarFragment();
@@ -29,9 +29,8 @@ public class RadarFragment extends BaseBackFragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contact_radar, container,
                 false);
-
         initView(view);
-        return view;
+        return attachToSwipeBack(view);
     }
 
 

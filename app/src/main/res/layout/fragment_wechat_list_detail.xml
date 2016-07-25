@@ -20,8 +20,6 @@
         <ListView
             android:id="@+id/wechat_list_detail_list"
             android:clipChildren="false"
-            android:paddingLeft="-12dp"
-            android:paddingRight="-12dp"
             android:layout_weight="1"
             android:layout_marginTop="@dimen/y8"
             android:layout_width="match_parent"

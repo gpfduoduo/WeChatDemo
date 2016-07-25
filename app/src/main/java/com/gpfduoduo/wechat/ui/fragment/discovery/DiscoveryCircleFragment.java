@@ -31,6 +31,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.gpfduoduo.wechat.MyApplication;
@@ -41,11 +42,10 @@ import com.gpfduoduo.wechat.entity.User;
 import com.gpfduoduo.wechat.ui.adapter.FriendCircleAdapter;
 import com.gpfduoduo.wechat.ui.dialog.AddFriendCircleDialog;
 import com.gpfduoduo.wechat.ui.dialog.ChangeFriendCircleBkDialog;
-import com.gpfduoduo.wechat.ui.fragment.BaseBackFragment;
+import com.gpfduoduo.wechat.ui.fragment.BaseSwipeBackFragment;
 import com.gpfduoduo.wechat.ui.fragment.event.FriendCircleEvent;
 import com.gpfduoduo.wechat.ui.fragment.event.FriendCircleSelectPhotoEvent;
 import com.gpfduoduo.wechat.ui.fragment.event.FriendCircleVideoEvent;
-import com.gpfduoduo.wechat.ui.view.listview.BounceListView;
 import com.gpfduoduo.wechat.util.DeviceUtil;
 import com.gpfduoduo.wechat.util.camera.CapturePhotoHelper;
 import com.gpfduoduo.wechat.util.camera.FolderManager;
@@ -59,7 +59,7 @@ import org.greenrobot.eventbus.Subscribe;
 /**
  * Created by gpfduoduo on 2016/7/1.
  */
-public class DiscoveryCircleFragment extends BaseBackFragment
+public class DiscoveryCircleFragment extends BaseSwipeBackFragment
         implements View.OnClickListener {
 
     private static final String tag
@@ -78,7 +78,7 @@ public class DiscoveryCircleFragment extends BaseBackFragment
     private ImageView mBackIcon;
     private ImageView mYouIcon;
     private ImageView mImgRefresh;
-    private BounceListView mListView;
+    private ListView mListView;
     private FriendCircleAdapter mAdapter;
 
     private View mHeaderView;
@@ -144,7 +144,7 @@ public class DiscoveryCircleFragment extends BaseBackFragment
         initOther(view);
         initListView(view);
 
-        return view;
+        return attachToSwipeBack(view);
     }
 
 
@@ -189,8 +189,7 @@ public class DiscoveryCircleFragment extends BaseBackFragment
 
 
     private void initListView(View view) {
-        mListView = (BounceListView) view.findViewById(
-                R.id.friend_circle_listView);
+        mListView = (ListView) view.findViewById(R.id.friend_circle_listView);
         mHeaderView = getActivity().getLayoutInflater()
                                    .inflate(R.layout.view_friend_circle_head,
                                            null);
@@ -236,21 +235,21 @@ public class DiscoveryCircleFragment extends BaseBackFragment
                 });
 
         //下拉刷新 左上角显示更新旋转的图标
-        mListView.setDownListener(new BounceListView.OnDownListener() {
-            @Override public void onDownListener(int distance) {
-
-            }
-
-
-            @Override public void onDownStart() {
-                showImgRefresh(true);
-            }
-
-
-            @Override public void onDownEnd() {
-                showImgRefresh(false);
-            }
-        });
+        //mListView.setDownListener(new BounceListView.OnDownListener() {
+        //    @Override public void onDownListener(int distance) {
+        //
+        //    }
+        //
+        //
+        //    @Override public void onDownStart() {
+        //        showImgRefresh(true);
+        //    }
+        //
+        //
+        //    @Override public void onDownEnd() {
+        //        showImgRefresh(false);
+        //    }
+        //});
 
         //点击聊天界面 输入框消息
         mListView.setOnTouchListener(new View.OnTouchListener() {

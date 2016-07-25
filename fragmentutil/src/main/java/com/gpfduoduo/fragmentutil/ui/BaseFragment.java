@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -26,12 +27,14 @@ public class BaseFragment extends Fragment {
     protected FragmentAnim mFragmentAnim;
 
     protected Animation mNoAnim, mEnterAnim, mExitAnim, mPopEnterAnim,
-            mPopExitAnim, mAlphaEnterAnim;
+            mPopExitAnim;
 
     protected BaseActivity mBaseActivity;
     private FragmentUtil mFragmentUtil;
     private boolean mIsHidden = true;
     private boolean mIsRoot = false;
+    public boolean mIsSwipeBacking = false;
+
     private InputMethodManager mInputManager;
 
 
@@ -62,11 +65,13 @@ public class BaseFragment extends Fragment {
 
     @Override
     public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+        if (mIsSwipeBacking) return mNoAnim;
+
         //以Fragment A 进入 Fragment B 为例
         if (transit == FragmentTransaction.TRANSIT_FRAGMENT_OPEN) {
             if (enter) { //A进入时的动画
                 if (mIsRoot) { // root fragment 没有进入动画
-                    return mAlphaEnterAnim;
+                    return mNoAnim;
                 }
                 return mEnterAnim;
             }
@@ -120,8 +125,6 @@ public class BaseFragment extends Fragment {
                 mFragmentAnim.getPopEnter());
         mPopExitAnim = AnimationUtils.loadAnimation(mBaseApplication,
                 mFragmentAnim.getPopExit());
-        mAlphaEnterAnim = AnimationUtils.loadAnimation(mBaseApplication,
-                R.anim.alpha_enter);
 
         mEnterAnim.setAnimationListener(new Animation.AnimationListener() {
             @Override public void onAnimationStart(Animation animation) {
@@ -156,6 +159,17 @@ public class BaseFragment extends Fragment {
      */
     public void pop() {
         mFragmentUtil.back(getFragmentManager());
+    }
+
+
+    /**
+     * 防止滑动退出时的动画
+     */
+    public void popForSwipeBack() {
+        Log.d(tag, "pop for swipe back");
+        mIsSwipeBacking = true;
+        mFragmentUtil.back(getFragmentManager());
+        mIsSwipeBacking = false;
     }
 
 

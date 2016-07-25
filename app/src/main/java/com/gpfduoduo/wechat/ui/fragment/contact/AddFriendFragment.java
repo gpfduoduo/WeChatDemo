@@ -11,12 +11,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.gpfduoduo.wechat.R;
-import com.gpfduoduo.wechat.ui.fragment.BaseBackFragment;
+import com.gpfduoduo.wechat.ui.fragment.BaseSwipeBackFragment;
 
 /**
  * Created by gpfduoduo on 2016/6/30.
  */
-public class AddFriendFragment extends BaseBackFragment
+public class AddFriendFragment extends BaseSwipeBackFragment
         implements View.OnClickListener {
 
     private static final String LEFT_TITLE = "left_title";
@@ -63,7 +63,7 @@ public class AddFriendFragment extends BaseBackFragment
 
         initToolbar(view);
         initOther(view);
-        return view;
+        return attachToSwipeBack(view);
     }
 
 
