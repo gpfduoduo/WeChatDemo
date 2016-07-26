@@ -15,7 +15,7 @@
     <include
         android:layout_width="match_parent"
         android:layout_height="54dp"
-        android:layout_gravity="@dimen/bottombar_height"
+        android:layout_gravity="bottom"
         android:id="@+id/main_bottom_include"
         layout="@layout/view_layout_bottom"/>
 

@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -241,7 +242,7 @@ public class SwipeBackLayout extends FrameLayout {
                 }
                 if (mPreFragment == null) {
                     if (mFragment != null) {
-                        getPreFragment();
+                        processPreFragment();
                     }
                 }
                 else {
@@ -297,6 +298,7 @@ public class SwipeBackLayout extends FrameLayout {
                                     mShadowRight.getIntrinsicWidth()));
                 }
             }
+
             invalidate();
 
             if (mListeners != null && !mListeners.isEmpty()/* &&
@@ -308,7 +310,7 @@ public class SwipeBackLayout extends FrameLayout {
                 }
             }
 
-            //退出Fragment无动画
+            //退出Fragment，前一个Fragment出现无动画
             if (mScrollPercent > 1) {
                 if (mPreFragment != null &&
                         mPreFragment instanceof BaseFragment) {
@@ -372,7 +374,7 @@ public class SwipeBackLayout extends FrameLayout {
         }
 
 
-        private void getPreFragment() {
+        private void processPreFragment() {
             List<Fragment> fragments = mFragment.getFragmentManager()
                                                 .getFragments();
             if (fragments != null && fragments.size() > 1) {
@@ -382,6 +384,7 @@ public class SwipeBackLayout extends FrameLayout {
                     if (fragment != null && fragment.getView() != null) {
                         fragment.getView().setVisibility(View.VISIBLE);
                         mPreFragment = fragment;
+                        Log.d(tag, "pre fragment = " + mPreFragment.getTag());
                         break;
                     }
                 }

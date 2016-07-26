@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.gpfduoduo.fragmentutil.ui.BaseActivity;
 import com.gpfduoduo.fragmentutil.ui.BaseFragment;
@@ -24,7 +24,7 @@ public class MainActivity extends BaseActivity {
 
     private ImageView[] mTabButtons;
     private TextView[] mTabTextViews;
-    private LinearLayout mBottomTab;
+    private RelativeLayout mBottomTab;
     private BaseFragment[] mFragments = new BaseFragment[4];
     private int mIndex;
     private int mCurrentTabIndex = 0;// 当前fragment的index
@@ -62,7 +62,7 @@ public class MainActivity extends BaseActivity {
 
 
     private void initTabView() {
-        mBottomTab = (LinearLayout) findViewById(R.id.main_bottom_include);
+        mBottomTab = (RelativeLayout) findViewById(R.id.main_bottom_include);
 
         mTabButtons = new ImageView[4];
         mTabButtons[0] = (ImageView) mBottomTab.findViewById(R.id.ib_weixin);
@@ -119,7 +119,7 @@ public class MainActivity extends BaseActivity {
 
 
     /**
-     * 对子最底下的tab进行打开和关闭的动画
+     * 对子最底下的tab进行打开和关闭的动画，用于按返回键返回的效果，可以打开或者关闭
      */
     public void openBottomTab(long duration, boolean open) {
         mIsTabOpen = open;
@@ -138,13 +138,17 @@ public class MainActivity extends BaseActivity {
 
 
     /**
-     * SwipeBack返回时的处理
+     * SwipeBack返回时的处理，仅仅具有打开功能
      */
     public void SwipeOpenBottomTab(float percent) {
-        float value = (int) ((float) (-mWidth + (float) mWidth * percent));
+        float value = (-mWidth + (float) mWidth * percent);
         if (value >= 0) {
             value = 0;
         }
+        if (value < -mWidth) {
+            value = -mWidth;
+        }
+
         mBottomTab.setX(value);
         mBottomTab.setAlpha(percent);
     }

@@ -50,17 +50,14 @@ public class BaseSwipeBackFragment extends SwipeBackFragment
      * STATE_SETTLING 2
      */
     @Override public void onDragStateChange(int state) {
-        Log.d(tag, "drag state change state = " + state);
     }
 
 
     @Override public void onEdgeTouch(int orientationEdgeFlag) {
-        Log.d(tag, "onEdgeTouch");
     }
 
 
     @Override public void onDragScrolled(float scrollPercent) {
-        //if ((int) scrollPercent == 1) {
         Fragment preFragment = getPreFragment();
         if (preFragment != null && preFragment instanceof BaseMainFragment) {
             BaseDelayLoadFragment rootFragment
@@ -68,7 +65,6 @@ public class BaseSwipeBackFragment extends SwipeBackFragment
             if (rootFragment != null) {
                 rootFragment.SwipeOpenBottomTab(scrollPercent);
             }
-            //}
         }
     }
 
