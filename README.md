@@ -1,6 +1,8 @@
 # WeChatDemo
+
 **Single Activity and Multiple Fragments to implement the social app WeChat client**. The knowledges about this apk are from [my article](https://github.com/gpfduoduo/android-article).  Welcom you guys to star and fork  
 
+[点击查看中文说明](chinese.md)  
 
 # Introduction
 1. **To study android Activity and fragment**. you could know how to use fragment in you app developing correctly.
@@ -10,7 +12,11 @@
 5. study TextView knowledge: **ClickableSpan, SpannableString etc...**  
 6. **Animator** using method  
 7. **soft input** using   
-8. use zbar to **scan QR, adopt lazy load camera**, in case that, poor performance phone get stick
+8. use zbar to **scan QR, adopt lazy load camera**, in case that, poor performance phone get stick  
+9. Use** TextureView to play video** in FriendCirlcle(ListView), do not use SurfaceView to play video in Listview or RecycleView  
+10. **SwipeBack in Fragment ** 
+
+
 
 
 
@@ -30,7 +36,9 @@
 3. [PhotoView](https://github.com/chrisbanes/PhotoView)  
 4. [ViewPagerFix](https://github.com/chrisbanes/PhotoView/issues/31)    
 5. [Glide](https://github.com/bumptech/glide)  
-6. [QrCodeScan](https://github.com/SkillCollege/QrCodeScan), notify this project has **memory leak**, i have put issue, but the author doesn't handler this. **In my project, I have solved this problem**.  
+6. [QrCodeScan](https://github.com/SkillCollege/QrCodeScan), notify this project has **memory leak**, i have put issue, but the author doesn't handler this. **In my project, I have solved this problem**.    
+7. [VideoPlayerManager](https://github.com/danylovolokh/VideoPlayerManager) A progject to implement play video in ListView or RecycleView, very nice... 
+
 
 
 
