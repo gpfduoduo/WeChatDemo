@@ -18,7 +18,6 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import com.gpfduoduo.wechat.R;
 import com.gpfduoduo.wechat.entity.FriendCircle;
@@ -32,8 +31,6 @@ import com.gpfduoduo.wechat.util.camera.MediaRecorderSystem;
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 import org.greenrobot.eventbus.EventBus;
 
 /**
@@ -45,7 +42,6 @@ public class LittleVideoFragment extends BaseBackFragment
     private static final String tag = LittleVideoFragment.class.getSimpleName();
 
     private static final int HANDLE_HIDE_RECORD_FOCUS = 2;
-    private static final int HANDLE_PROGRESS = 10;
     private static final int MAX_TIME = 150;
     private static final int FOCUS_MAX_TIME_HIDE = 3 * 1000;
     private static final int PRESS_VIEW_THRESHOLD = 120;
@@ -54,13 +50,9 @@ public class LittleVideoFragment extends BaseBackFragment
     private ImageView mFocusImage;
     private ImageView mRecordController;
     private RelativeLayout mBottomLayout;
-    private ProgressBar mProgress;
-
     private boolean mIsCreated = false;
     private volatile boolean mIsReleased;
     private int mFocusWidth;
-    private int mPro;
-    private int mProSecond;
     private int mScreenWidth, mScreenHeight;
     private int mSurfaceWidth, mSurfaceHeight;
 
@@ -69,9 +61,6 @@ public class LittleVideoFragment extends BaseBackFragment
     private Animation mScaleAnimation;
 
     private LittleVideoHandler mHandler;
-
-    private Timer mTimer = null;
-    private TimerTask mTimerTask = null;
 
 
     public static LittleVideoFragment newInstance() {
@@ -161,36 +150,6 @@ public class LittleVideoFragment extends BaseBackFragment
 
         mBottomLayout.setOnTouchListener(mOnVideoControllerTouchListener);
         mSurfaceView.setOnTouchListener(mOnSurfaceViewTouchListener);
-
-        initProgress(view);
-    }
-
-
-    private void initProgress(View view) {
-        mProgress = (ProgressBar) view.findViewById(
-                R.id.little_video_record_progress);
-        mProgress.setMax(MAX_TIME);
-        initialProgress();
-    }
-
-
-    private void initialProgress() {
-        mProgress.setProgress(0);
-        mProgress.setSecondaryProgress(mProgress.getMax());
-        mPro = mProgress.getProgress();
-        mProSecond = mProgress.getMax();
-    }
-
-
-    private void clearTimer() {
-        if (mTimer != null) {
-            mTimer.cancel();
-            mTimer = null;
-        }
-        if (mTimerTask != null) {
-            mTimerTask.cancel();
-            mTimerTask = null;
-        }
     }
 
 
@@ -218,14 +177,12 @@ public class LittleVideoFragment extends BaseBackFragment
     private void measureBottomLayout(boolean show) {
         if (show) {
             ((RelativeLayout.LayoutParams) mBottomLayout.getLayoutParams()).topMargin
-                    = mSurfaceHeight +
+                    = mSurfaceWidth +
                     (int) getResources().getDimension(R.dimen.y3);
-            if (mProgress != null) mProgress.setVisibility(View.VISIBLE);
         }
         else {
             ((RelativeLayout.LayoutParams) mBottomLayout.getLayoutParams()).topMargin
-                    = mSurfaceHeight;
-            if (mProgress != null) mProgress.setVisibility(View.GONE);
+                    = mSurfaceWidth;
         }
     }
 
@@ -252,7 +209,6 @@ public class LittleVideoFragment extends BaseBackFragment
                 case MotionEvent.ACTION_UP:
                     stopRecord();
                     mRecordController.clearAnimation();
-                    initialProgress();
                     measureBottomLayout(false);
                     break;
             }
@@ -293,23 +249,12 @@ public class LittleVideoFragment extends BaseBackFragment
     //开始录制
     private void startRecord() {
         mMediaRecorder.startRecord();
-        clearTimer();
-        mTimer = new Timer();
-        mTimerTask = new TimerTask() {
-            @Override public void run() {
-                Message message = mHandler.obtainMessage();
-                message.what = HANDLE_PROGRESS;
-                mHandler.sendMessage(message);
-            }
-        };
-        mTimer.schedule(mTimerTask, 100, 100);
     }
 
 
     //结束录制
     private void stopRecord() {
         mMediaRecorder.stopRecord();
-        clearTimer();
         File videoFile = mMediaRecorder.getVideoFile();
         if (videoFile == null) return;
 
@@ -421,16 +366,6 @@ public class LittleVideoFragment extends BaseBackFragment
 
             switch (msg.what) {
                 case HANDLE_HIDE_RECORD_FOCUS:
-                    break;
-                case HANDLE_PROGRESS:
-                    fragment.mProgress.setProgress(fragment.mPro += 1);
-                    fragment.mProgress.setSecondaryProgress(
-                            fragment.mProSecond -= 1);
-
-                    if (fragment.mPro == fragment.mProSecond) {
-                        fragment.clearTimer();
-                        fragment.stopRecord();
-                    }
                     break;
             }
         }

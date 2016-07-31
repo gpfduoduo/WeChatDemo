@@ -14,15 +14,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-        <ProgressBar
-            android:id="@+id/little_video_record_progress"
-            android:progressDrawable="@drawable/little_video_progress"
-            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_below="@+id/little_video_record_preview"
-            android:max="100"
-            android:layout_height="@dimen/y3"></ProgressBar>
-
         <ImageView
             android:id="@+id/little_video_record_focusing"
             android:layout_width="@dimen/little_video_focus_width"
