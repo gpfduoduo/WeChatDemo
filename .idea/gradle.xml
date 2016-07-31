@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/radarview" />
             <option value="$PROJECT_DIR$/randomtextview" />
             <option value="$PROJECT_DIR$/rippleview" />
+            <option value="$PROJECT_DIR$/videoplayermanager" />
           </set>
         </option>
         <option name="myModules">
@@ -26,6 +27,7 @@
             <option value="$PROJECT_DIR$/radarview" />
             <option value="$PROJECT_DIR$/randomtextview" />
             <option value="$PROJECT_DIR$/rippleview" />
+            <option value="$PROJECT_DIR$/videoplayermanager" />
           </set>
         </option>
       </GradleProjectSettings>

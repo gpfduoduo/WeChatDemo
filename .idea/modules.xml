@@ -9,6 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/radarview/radarview.iml" filepath="$PROJECT_DIR$/radarview/radarview.iml" />
       <module fileurl="file://$PROJECT_DIR$/randomtextview/randomtextview.iml" filepath="$PROJECT_DIR$/randomtextview/randomtextview.iml" />
       <module fileurl="file://$PROJECT_DIR$/rippleview/rippleview.iml" filepath="$PROJECT_DIR$/rippleview/rippleview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/videoplayermanager/videoplayermanager.iml" filepath="$PROJECT_DIR$/videoplayermanager/videoplayermanager.iml" />
     </modules>
   </component>
 </project>

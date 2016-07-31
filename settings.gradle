@@ -1,2 +1,3 @@
 include ':app', ':fragmentutil', ':imagescanner', ':rippleview',
+        ':videoplayermanager',
         ':randomtextview', ':radarview'

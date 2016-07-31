@@ -1,15 +1,12 @@
 package com.gpfduoduo.wechat.ui.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 import com.gpfduoduo.wechat.R;
 import com.gpfduoduo.wechat.entity.Contact;
-import com.gpfduoduo.wechat.entity.Friend;
 import com.gpfduoduo.wechat.ui.adapter.base.CustomAdapter;
 import com.gpfduoduo.wechat.ui.adapter.base.ViewHolder;
 import com.gpfduoduo.wechat.util.MediaIndexer;

@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:clickable="true">
 
-    <TextureView
+    <com.gpfduoduo.videoplayermanager.view.VideoPlayerView
         android:id="@+id/friend_circle_video"
         android:layout_width="@dimen/x200"
         android:layout_height="@dimen/x150"/>

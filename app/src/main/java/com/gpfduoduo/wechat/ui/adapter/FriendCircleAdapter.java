@@ -3,7 +3,6 @@ package com.gpfduoduo.wechat.ui.adapter;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -12,6 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.gpfduoduo.imageloader.ImageLoader;
+import com.gpfduoduo.videoplayermanager.manager.VideoPlayerManager;
+import com.gpfduoduo.videoplayermanager.view.SimpleMainThreadMediaPlayerListener;
+import com.gpfduoduo.videoplayermanager.view.VideoPlayerView;
 import com.gpfduoduo.wechat.MyApplication;
 import com.gpfduoduo.wechat.R;
 import com.gpfduoduo.wechat.entity.CommentItem;
@@ -23,8 +25,6 @@ import com.gpfduoduo.wechat.ui.view.autogridview.AutoGridLayout;
 import com.gpfduoduo.wechat.ui.view.circlelovecommentview.CommentListView;
 import com.gpfduoduo.wechat.ui.view.circleloveview.ISpanClick;
 import com.gpfduoduo.wechat.ui.view.circleloveview.LoveTextView;
-import com.gpfduoduo.wechat.util.MIMEType;
-import java.io.File;
 import java.util.List;
 
 /**
@@ -41,6 +41,7 @@ public class FriendCircleAdapter extends BaseAdapter {
     private List<FriendCircle> mFriendCircleList;
     private int mResId;
     private LayoutInflater mInflater;
+    private VideoPlayerManager mVideoPlayerManager;
 
     public interface FriendCircleItemClickListener {
         public void onFriendCircleItemClickListener(int friendCirclePos, int photoPos);
@@ -58,12 +59,13 @@ public class FriendCircleAdapter extends BaseAdapter {
     }
 
 
-    public FriendCircleAdapter(Context context, int resLayoutId, List<FriendCircle> list, FriendCircleItemClickListener listener) {
+    public FriendCircleAdapter(Context context, int resLayoutId, List<FriendCircle> list, FriendCircleItemClickListener listener, VideoPlayerManager manager) {
         mContext = context;
         this.mFriendCircleList = list;
         this.mResId = resLayoutId;
         mOnItemClickListener = listener;
         mInflater = LayoutInflater.from(mContext);
+        mVideoPlayerManager = manager;
     }
 
 
@@ -97,7 +99,7 @@ public class FriendCircleAdapter extends BaseAdapter {
                     R.id.friend_circle_video_layout);
             holder.mVideoThumb = (ImageView) convertView.findViewById(
                     R.id.friend_circle_video_thumb);
-            holder.mVideoView = (TextureView) convertView.findViewById(
+            holder.mVideoView = (VideoPlayerView) convertView.findViewById(
                     R.id.friend_circle_video);
             holder.mVideoIcon = (ImageView) convertView.findViewById(
                     R.id.friend_circle_video_icon);
@@ -168,19 +170,40 @@ public class FriendCircleAdapter extends BaseAdapter {
         }
 
         //朋友圈的视频显示
+        final VideoPlayerView videoPlayerView = holder.mVideoView;
+        final ImageView thumb = holder.mVideoThumb;
+        final ImageView icon = holder.mVideoIcon;
+
+        videoPlayerView.addMediaPlayerListener(
+                new SimpleMainThreadMediaPlayerListener() {
+                    @Override public void onVideoStoppedMainThread() {
+                        thumb.setVisibility(View.VISIBLE);
+                        videoPlayerView.setVisibility(View.GONE);
+                        icon.setVisibility(View.VISIBLE);
+                    }
+
+
+                    @Override public void onVideoCompletionMainThread() {
+                        thumb.setVisibility(View.VISIBLE);
+                        videoPlayerView.setVisibility(View.GONE);
+                        icon.setVisibility(View.VISIBLE);
+                    }
+                });
+
         if (contentType == FriendCircle.CONTENT_TYPE.VIDEO) {
             holder.photos.setVisibility(View.GONE);
             holder.mVideoLayout.setVisibility(View.VISIBLE);
             holder.mVideoLayout.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-                    //play the little video
-                    MIMEType.openFile(new File(friendCircle.videoPath),
-                            mContext);
+                    videoPlayerView.setVisibility(View.VISIBLE);
+                    thumb.setVisibility(View.GONE);
+                    icon.setVisibility(View.GONE);
+                    mVideoPlayerManager.playNewVideo(videoPlayerView,
+                            friendCircle.videoPath);
                 }
             });
             if (!TextUtils.isEmpty(friendCircle.videoPath)) {
                 holder.mVideoThumb.setVisibility(View.VISIBLE);
-                holder.mVideoView.setVisibility(View.GONE);
                 holder.mVideoIcon.setVisibility(View.VISIBLE);
                 ImageLoader.getInstance()
                            .loadImage(friendCircle.videoPath,
@@ -253,7 +276,7 @@ public class FriendCircleAdapter extends BaseAdapter {
         CommentAdapter mCommentAdapter;
         RelativeLayout mVideoLayout;
         ImageView mVideoThumb;
-        TextureView mVideoView;
+        VideoPlayerView mVideoView;
         ImageView mVideoIcon;
     }
 

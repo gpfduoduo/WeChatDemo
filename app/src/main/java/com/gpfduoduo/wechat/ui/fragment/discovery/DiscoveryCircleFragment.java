@@ -34,6 +34,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import com.gpfduoduo.videoplayermanager.manager.SingleVideoPlayerManager;
+import com.gpfduoduo.videoplayermanager.manager.VideoPlayerManager;
 import com.gpfduoduo.wechat.MyApplication;
 import com.gpfduoduo.wechat.R;
 import com.gpfduoduo.wechat.entity.CommentItem;
@@ -103,6 +105,9 @@ public class DiscoveryCircleFragment extends BaseSwipeBackFragment
     private int mScreenHeight;
     private int mShowLastHeight;
     private boolean mIsSoftPanelShow = false;
+
+    private VideoPlayerManager mVideoPlayerManager
+            = new SingleVideoPlayerManager();
 
 
     public static DiscoveryCircleFragment newInstance() {
@@ -218,7 +223,7 @@ public class DiscoveryCircleFragment extends BaseSwipeBackFragment
                                         new ArrayList<String>(photos),
                                         photoPos));
                     }
-                });
+                }, mVideoPlayerManager);
         mListView.setAdapter(mAdapter);
 
         //朋友圈评论列表添加评论，或者是对其他人进行回复
@@ -312,6 +317,12 @@ public class DiscoveryCircleFragment extends BaseSwipeBackFragment
     @Override public boolean onBackPressedSupport() {
         hideInputLayout();
         return super.onBackPressedSupport();
+    }
+
+
+    @Override public void onStop() {
+        super.onStop();
+        mVideoPlayerManager.stopAnyPlayback();
     }
 
 

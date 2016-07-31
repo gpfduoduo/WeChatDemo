@@ -8,7 +8,6 @@
         android:id="@+id/toolbar"
         android:layout_height="?attr/actionBarSize"
         android:layout_width="match_parent"
-        app:layout_collapseMode="pin"
         app:popupTheme="@style/AppTheme.PopupOverlay"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:titleTextAppearance="@style/Toolbar_TextAppearance_White"
